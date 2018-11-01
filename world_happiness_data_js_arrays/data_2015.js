@@ -1,4 +1,4 @@
-data_2015 = [
+var data_2015 = [
   {
     "Country": "Switzerland",
     "Region": "Western Europe",
