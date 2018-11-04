@@ -1,4 +1,4 @@
-data_2016 = [
+const data_2016 = [
   {
     "Country": "Denmark",
     "Region": "Western Europe",

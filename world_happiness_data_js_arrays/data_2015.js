@@ -1,4 +1,4 @@
-data_2015 = [
+const data_2015 = [
   {
     "Country": "Switzerland",
     "Region": "Western Europe",
@@ -1260,7 +1260,7 @@ data_2015 = [
     "Dystopia Residual": 1.7536
   },
   {
-    "Country": "Somaliland region",
+    "Country": "Somaliland Region",
     "Region": "Sub-Saharan Africa",
     "Happiness Rank": 91,
     "Happiness Score": 5.057,
