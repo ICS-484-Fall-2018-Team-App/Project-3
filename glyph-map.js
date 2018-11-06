@@ -130,7 +130,7 @@ function generateGlyph(url, rank, score, name, pop) {
       break;
     case "p":
       let max = $("#glyph-map-year option:selected").val() == "2017" ? HighPop2017 : $("#glyph-map-year option:selected").val() == "2016" ? HighPop2016 : HighPop2015;
-      size = Math.round((pop / max) * glyphMax + glyphMin);
+      size = Math.round((((pop / max) * Math.sqrt(1/(pop/max))) * glyphMax) + glyphMin);
       break;
   }
   return L.icon({
