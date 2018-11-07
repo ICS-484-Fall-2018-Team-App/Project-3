@@ -1140,7 +1140,7 @@ const data_pop = [
     "2015": 5956900,
     "2016": 6079500,
     "2017": 6201500,
-    "Country Name": "Kyrgyz Republic",
+    "Country Name": "Kyrgyzstan",
     "Country Code": "KGZ",
     "Indicator Name": "Population, total",
     "Indicator Code": "SP.POP.TOTL"
@@ -1204,7 +1204,7 @@ const data_pop = [
     "2015": 6663967,
     "2016": 6758353,
     "2017": 6858160,
-    "Country Name": "Lao PDR",
+    "Country Name": "Laos",
     "Country Code": "LAO",
     "Indicator Name": "Population, total",
     "Indicator Code": "SP.POP.TOTL"
@@ -2088,7 +2088,7 @@ const data_pop = [
     "2015": 1319011,
     "2016": 1343098,
     "2017": 1367254,
-    "Country Name": "Eswatini",
+    "Country Name": "Swaziland",
     "Country Code": "SWZ",
     "Indicator Name": "Population, total",
     "Indicator Code": "SP.POP.TOTL"
@@ -2476,12 +2476,6 @@ const data_pop = [
     "Country Name": "Taiwan",
   },
   {
-    "2015": 5865401,
-    "2016": 5955734,
-    "2017": 6045117,
-    "Country Name": "Kyrgyzstan",
-  },
-  {
     "2015": 4662884,
     "2016": 4790705,
     "2017": 4920724,
@@ -2492,17 +2486,5 @@ const data_pop = [
     "2016": 3508000,
     "2017": 3508000,
     "Country Name": "Somaliland Region",
-  },
-  {
-    "2015": 6663967,
-    "2016": 9758353,
-    "2017": 6858160,
-    "Country Name": "Laos",
-  },
-  {
-    "2015": 1319011,
-    "2016": 1343098,
-    "2017": 1367254,
-    "Country Name": "Swaziland",
   }
 ]

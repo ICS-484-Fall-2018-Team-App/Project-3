@@ -2,7 +2,32 @@ let glyphMap;
 let glyphMarkers;
 let glyphLegend;
 let glyphMax = 24, glyphMin = 12;
-let HighPop2017 = 0, HighPop2016 = 0, HighPop2015 = 0;
+const HighPop = {
+  "2017": 0,
+  "2016": 0,
+  "2015": 0
+}
+const HighLand = {
+  "2017": 0,
+  "2016": 0,
+  "2015": 0
+}
+const HighPD = {
+  "2017": 0,
+  "2016": 0,
+  "2015": 0
+}
+const HighGDP = {
+  "2017": 0,
+  "2016": 0,
+  "2015": 0
+}
+const HighGDPPC = {
+  "2017": 0,
+  "2016": 0,
+  "2015": 0
+}
+
 
 $(document).ready(function() {
   
@@ -21,6 +46,7 @@ $(document).ready(function() {
   glyphMarkers = L.layerGroup().addTo(glyphMap);
   
   // Joining Data Sets
+  // 2017
   $.each(data_2017, function(idx, val) {
     $.each(country_lat_lon, function(i, v) {
       if(val["Country"] == v["Country"]) {
@@ -31,12 +57,37 @@ $(document).ready(function() {
     $.each(data_pop, function(i, v) {
       if(val["Country"] == v["Country Name"]) {
         val["Population"] = v["2017"];
-        if(v["2017"] > HighPop2017) {
-          HighPop2017 = v["2017"];
+        if(v["2017"] > HighPop["2017"]) {
+          HighPop["2017"] = v["2017"];
         }
       }
     });
+    $.each(data_land, function(i, v) {
+      if(val["Country"] == v["Country Name"]) {
+        val["Land Mass"] = v["2017"];
+        if(v["2017"] > HighLand["2017"]) {
+          HighLand["2017"] = v["2017"];
+        }
+      }
+    });
+    if (val["Population"] / val["Land Mass"] > HighPD["2017"]) {
+      HighPD["2017"] = val["Population"] / val["Land Mass"];
+    }
+    $.each(data_GDP, function(i, v) {
+      if(val["Country"] == v["Country Name"]) {
+        match = 1;
+        val["GDP"] = v["2017"];
+        if(v["2017"] > HighGDP["2017"]) {
+          HighGDP["2017"] = v["2017"];
+        }
+      }
+    });
+    if (val["GDP"] != "" && val["GDP"] / val["Population"] > HighGDPPC["2017"]) {
+      HighGDPPC["2017"] = val["GDP"] / val["Population"];
+    }
   });
+  console.log(HighGDPPC["2017"]);
+  // 2016
   $.each(data_2016, function(idx, val) {
     $.each(country_lat_lon, function(i, v) {
       if(val["Country"] == v["Country"]) {
@@ -47,12 +98,35 @@ $(document).ready(function() {
     $.each(data_pop, function(i, v) {
       if(val["Country"] == v["Country Name"]) {
         val["Population"] = v["2016"];
-        if(v["2016"] > HighPop2016) {
-          HighPop2016 = v["2016"];
+        if(v["2016"] > HighPop["2016"]) {
+          HighPop["2016"] = v["2016"];
         }
       }
     });
+    $.each(data_land, function(i, v) {
+      if(val["Country"] == v["Country Name"]) {
+        val["Land Mass"] = v["2016"];
+        if(v["2016"] > HighLand["2016"]) {
+          HighLand["2016"] = v["2016"];
+        }
+      }
+    });
+    if (val["Population"] / val["Land Mass"] > HighPD["2016"]) {
+      HighPD["2016"] = val["Population"] / val["Land Mass"];
+    }
+    $.each(data_GDP, function(i, v) {
+      if(val["Country"] == v["Country Name"]) {
+        val["GDP"] = v["2016"];
+        if(v["2016"] > HighGDP["2016"]) {
+          HighGDP["2016"] = v["2016"];
+        }
+      }
+    });
+    if (val["GDP"] != "" && val["GDP"] / val["Population"] > HighGDPPC["2016"]) {
+      HighGDPPC["2016"] = val["GDP"] / val["Population"];
+    }
   });
+  // 2015
   $.each(data_2015, function(idx, val) {
     $.each(country_lat_lon, function(i, v) {
       if(val["Country"] == v["Country"]) {
@@ -63,11 +137,33 @@ $(document).ready(function() {
     $.each(data_pop, function(i, v) {
       if(val["Country"] == v["Country Name"]) {
         val["Population"] = v["2015"];
-        if(v["2015"] > HighPop2015) {
-          HighPop2015 = v["2015"];
+        if(v["2015"] > HighPop["2015"]) {
+          HighPop["2015"] = v["2015"];
         }
       }
     });
+    $.each(data_land, function(i, v) {
+      if(val["Country"] == v["Country Name"]) {
+        val["Land Mass"] = v["2015"];
+        if(v["2015"] > HighLand["2015"]) {
+          HighLand["2015"] = v["2015"];
+        }
+      }
+    });
+    if (val["Population"] / val["Land Mass"] > HighPD["2015"]) {
+      HighPD["2015"] = val["Population"] / val["Land Mass"];
+    }
+    $.each(data_GDP, function(i, v) {
+      if(val["Country"] == v["Country Name"]) {
+        val["GDP"] = v["2015"];
+        if(v["2015"] > HighGDP["2015"]) {
+          HighGDP["2015"] = v["2015"];
+        }
+      }
+    });
+    if (val["GDP"] != "" && val["GDP"] / val["Population"] > HighGDPPC["2015"]) {
+      HighGDPPC["2015"] = val["GDP"] / val["Population"];
+    }
   });
   
   generateGlyphMap();
@@ -93,26 +189,27 @@ function generateGlyphMap() {
   glyphMarkers.clearLayers();
   $.each($("#glyph-map-year option:selected").val() == "2017" ? data_2017 : $("#glyph-map-year option:selected").val() == "2016" ? data_2016 : data_2015, function(idx, val) {
     if(val["Happiness Rank"] < 31) {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/grin-beam-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
+      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/grin-beam-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
     }
     else if(val["Happiness Rank"] < 61) {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/smile-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
+      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/smile-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
     }
     else if(val["Happiness Rank"] < 91) {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/meh-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
+      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/meh-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
     }
     else if(val["Happiness Rank"] < 121) {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/frown-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
+      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/frown-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
     }
     else {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/sad-tear-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
+      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/sad-tear-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
     }
   });
 }
 
-function generateGlyph(url, rank, score, name, pop) {
+function generateGlyph(url, rank, score, name, pop, land, gdp) {
   let size = 15;
   let data = $("#glyph-map-year option:selected").val() == "2017" ? data_2017 : $("#glyph-map-year option:selected").val() == "2016" ? data_2016 : data_2015;
+  let max;
   switch($("#glyph-map-size option:selected").val()) {
     case "u":
       break;
@@ -129,8 +226,24 @@ function generateGlyph(url, rank, score, name, pop) {
       size = Math.round((10 - score) / 10 * glyphMax + glyphMin);
       break;
     case "p":
-      let max = $("#glyph-map-year option:selected").val() == "2017" ? HighPop2017 : $("#glyph-map-year option:selected").val() == "2016" ? HighPop2016 : HighPop2015;
+      max = HighPop[$("#glyph-map-year option:selected").val()];
       size = Math.round((((pop / max) * Math.sqrt(1/(pop/max))) * glyphMax) + glyphMin);
+      break;
+    case "l":
+      max = HighLand[$("#glyph-map-year option:selected").val()];
+      size = Math.round((((land / max) * Math.sqrt(1/(land/max))) * glyphMax) + glyphMin);
+      break;
+    case "pd":
+      max = HighPD[$("#glyph-map-year option:selected").val()];
+      size = Math.round((((pop / land / max) * Math.sqrt(1/(pop / land / max))) * glyphMax) + glyphMin);
+      break;
+    case "g":
+      max = HighGDP[$("#glyph-map-year option:selected").val()];
+      size = Math.round((((gdp / max) * Math.sqrt(1/(gdp / max))) * glyphMax) + glyphMin);
+      break;
+    case "gc":
+      max = HighGDPPC[$("#glyph-map-year option:selected").val()];
+      size = Math.round((((gdp / pop / max) * Math.sqrt(1/(gdp / pop / max))) * glyphMax) + glyphMin);
       break;
   }
   return L.icon({

@@ -21,9 +21,12 @@
   <script src="world_happiness_data_js_arrays/data_2015.js"></script>
   
   <!-- Glyph Map Script -->
-  <script src="glyph-map.js"></script>
   <script src="Country_List_ISO_3166_Codes_Latitude_Longitude.js"></script>
   <script src="API_SP.POP.TOTL_DS2_en_csv_v2_10203548.js"></script>
+  <script src="API_AG.LND.TOTL.K2_DS2_en_csv_v2_10181480.js"></script>
+  <script src="API_NY.GDP.MKTP.CD_DS2_en_csv_v2_10203569.js"></script>
+  <script src="glyph-map.js"></script>
+
   
   <!-- CSS Styling -->
   <link rel="stylesheet" href="styles.css">
@@ -52,8 +55,11 @@
             </div>
             <select class="form-control" id="glyph-map-size" onchange="generateGlyphMap()">
               <option value="u" selected>Uniform</option>
-              <option value="p">Population</option>
               <option value="l">Land Mass</option>
+              <option value="p">Population</option>
+              <option value="pd">Population Density</option>
+              <option value="g">GDP</option>
+              <option value="gc">GDP per Capita</option>
               <option value="rh">Happiness Rank High to Low</option>
               <option value="rl">Happiness Rank Low to High</option>
               <option value="sh">Happiness Score High to Low</option>
