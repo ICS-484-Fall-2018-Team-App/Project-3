@@ -206,7 +206,7 @@ function generateGlyphMap() {
 }
 
 function generateGlyph(url, rank, score, name, pop, land, gdp) {
-  let size = 15;
+  let size = 16;
   let data = $("#glyph-map-year option:selected").val() == "2017" ? data_2017 : $("#glyph-map-year option:selected").val() == "2016" ? data_2016 : data_2015;
   let max;
   switch($("#glyph-map-size option:selected").val()) {
@@ -254,6 +254,13 @@ function generateGlyph(url, rank, score, name, pop, land, gdp) {
 function generatePopUpText(val) {
   let rtn = "<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2);
   switch($("#glyph-map-size option:selected").val()) {
+    case "u":
+      rtn +=  "<br>Population: " + delim(val["Population"]);
+      rtn +=  "<br>Land Mass (km<sup>2</sup>): " + delim(val["Land Mass"]);
+      rtn +=  "<br>Population Density: " + round(val["Population"] / val["Land Mass"], 2);
+      rtn +=  "<br>GDP ($): " + (val["GDP"] == "" ? "Unknown" : delim(val["GDP"]));
+      rtn +=  "<br>GDP per Capita ($): " + (val["GDP"] == "" ? "Unknown" : delim(Math.round(val["GDP"] / val["Population"])));
+      break;
     case "p":
       rtn +=  "<br>Population: " + delim(val["Population"]);
       break;
