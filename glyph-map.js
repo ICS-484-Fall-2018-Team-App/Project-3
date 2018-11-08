@@ -86,7 +86,6 @@ $(document).ready(function() {
       HighGDPPC["2017"] = val["GDP"] / val["Population"];
     }
   });
-  console.log(HighGDPPC["2017"]);
   // 2016
   $.each(data_2016, function(idx, val) {
     $.each(country_lat_lon, function(i, v) {
@@ -189,19 +188,19 @@ function generateGlyphMap() {
   glyphMarkers.clearLayers();
   $.each($("#glyph-map-year option:selected").val() == "2017" ? data_2017 : $("#glyph-map-year option:selected").val() == "2016" ? data_2016 : data_2015, function(idx, val) {
     if(val["Happiness Rank"] < 31) {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/grin-beam-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
+      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/grin-beam-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
     }
     else if(val["Happiness Rank"] < 61) {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/smile-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
+      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/smile-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
     }
     else if(val["Happiness Rank"] < 91) {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/meh-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
+      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/meh-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
     }
     else if(val["Happiness Rank"] < 121) {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/frown-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
+      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/frown-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
     }
     else {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/sad-tear-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup("<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2) + "<br>Population: " + delim(val["Population"])).addTo(glyphMarkers);  
+      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/sad-tear-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
     }
   });
 }
@@ -239,11 +238,11 @@ function generateGlyph(url, rank, score, name, pop, land, gdp) {
       break;
     case "g":
       max = HighGDP[$("#glyph-map-year option:selected").val()];
-      size = Math.round((((gdp / max) * Math.sqrt(1/(gdp / max))) * glyphMax) + glyphMin);
+      size = gdp == "" ? glyphMin : Math.round((((gdp / max) * Math.sqrt(1/(gdp / max))) * glyphMax) + glyphMin);
       break;
     case "gc":
       max = HighGDPPC[$("#glyph-map-year option:selected").val()];
-      size = Math.round((((gdp / pop / max) * Math.sqrt(1/(gdp / pop / max))) * glyphMax) + glyphMin);
+      size = gdp == "" ? glyphMin : Math.round((((gdp / pop / max) * Math.sqrt(1/(gdp / pop / max))) * glyphMax) + glyphMin);
       break;
   }
   return L.icon({
@@ -251,6 +250,31 @@ function generateGlyph(url, rank, score, name, pop, land, gdp) {
     iconSize: [size, size],
     popupAnchor: [0, 0]
   });
+}
+function generatePopUpText(val) {
+  let rtn = "<span class='f-16'>" + val["Country"] + "</span><br>Rank: " + val["Happiness Rank"] + "&nbsp;&nbsp;&nbsp;Score: " + round(val["Happiness Score"], 2);
+  switch($("#glyph-map-size option:selected").val()) {
+    case "p":
+      rtn +=  "<br>Population: " + delim(val["Population"]);
+      break;
+    case "l":
+      rtn +=  "<br>Land Mass (km<sup>2</sup>): " + delim(val["Land Mass"]);
+      break;
+    case "pd":
+      rtn +=  "<br>Land Mass (km<sup>2</sup>): " + delim(val["Land Mass"]);
+      rtn +=  "<br>Population: " + delim(val["Population"]);
+      rtn +=  "<br>Population Density: " + round(val["Population"] / val["Land Mass"], 2);
+      break;
+    case "g":
+      rtn +=  "<br>GDP ($): " + (val["GDP"] == "" ? "Unknown" : delim(val["GDP"]));
+      break;
+    case "gc":
+      rtn +=  "<br>Population: " + delim(val["Population"]);
+      rtn +=  "<br>GDP ($): " + (val["GDP"] == "" ? "Unknown" : delim(val["GDP"]));
+      rtn +=  "<br>GDP per Capita ($): " + (val["GDP"] == "" ? "Unknown" : delim(Math.round(val["GDP"] / val["Population"])));
+      break;
+  }
+  return rtn;
 }
 
 /*
