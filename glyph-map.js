@@ -30,6 +30,11 @@ const HighGDPPC = {
 
 
 $(document).ready(function() {
+    
+  let country_by_name = country_by_key();
+  let countries_to_compare = [];
+  let toggledCountries = [];
+  let countries = topojson.feature(countryData, countryData.objects.countries);    
   
   //Setting Up Leaflet Map
   glyphMap = L.map('glyph-map').setView([0, 0], 2);
@@ -180,7 +185,152 @@ $(document).ready(function() {
     return div;
   };
   glyphLegend.addTo(glyphMap);
-  
+    
+    
+    
+//**************** D3 interactive overlay ************************
+
+L.easyButton('<img src="/path/to/img/of/penguin.png">', function(btn, map){
+    makeGraph();
+}).addTo( glyphMap );
+    
+// control that shows state info on hover
+var info = L.control();
+
+info.onAdd = function (glyphMap) {
+    this._div = L.DomUtil.create('div', 'info');
+    this.update();
+    return this._div;
+};
+
+info.update = function (props) {
+    let text = '<h4>Country</h4><b>';
+    if(props){
+        text += props;    
+    } else {
+        text += "No Country Selected";
+    }
+    text += '</b><br />';      
+    if(countries_to_compare.length > 0){
+        for(let i=0; i<countries_to_compare.length; i++){
+            text+= countries_to_compare[i] + ", ";
+            if(i>3){
+                text+= "....";
+                break;
+            }
+        }
+    }else{
+        text += "No Countries Selected";
+    }
+    this._div.innerHTML = text;
+
+};
+
+info.addTo(glyphMap);
+
+
+// get color depending on population density value
+
+function style(feature) {
+    return {
+        weight: 2,
+        opacity: 1,
+        color: 'transparent',
+        dashArray: '3',
+        fillOpacity: 0.7
+        //fillColor: getColor(feature.properties.density)
+    };
+}
+
+function highlightFeature(e) {
+    var layer = e.target;
+    //console.log(e.target.feature);
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.05
+    });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+
+    info.update(layer.feature.id);
+}
+
+var geojson;
+
+function resetHighlight(e) {
+    if(toggledCountries[e.target.feature.id] == undefined ||
+       toggledCountries[e.target.feature.id] == 0){
+    geojson.resetStyle(e.target);
+    info.update();
+    }
+}
+
+function toggleFeature(e) {
+    if(toggledCountries[e.target.feature.id] == undefined ||         toggledCountries[e.target.feature.id] == 0){
+        toggledCountries[e.target.feature.id] = 1;
+        countries_to_compare.push(e.target.feature.id);
+    } else {
+        toggledCountries[e.target.feature.id] = 0; 
+        resetHighlight(e);
+        for(let i=0; i< countries_to_compare.length; i++){
+            if(countries_to_compare[i] === e.target.feature.id){
+                countries_to_compare.splice(i, 1);
+                break;
+            }
+        }
+    }
+    //console.log(countries_to_compare);
+}
+
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: toggleFeature
+    });
+}
+
+geojson = L.geoJson(countries, {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(glyphMap);    
+    
+ 
+function makeGraph(){
+    let year = $("#glyph-map-year option:selected").val();
+    let countries_to_graph = [];
+    let country_array;
+   console.log(year);
+    if(year === '2015'){
+        country_array = country_by_name[0];
+    }else if(year === '2016'){
+        country_array = country_by_name[1];
+    }else{
+        country_array = country_by_name[2];
+    }
+     console.log(country_array);
+ 
+    for(let i=0; i< countries_to_compare.length; i++){
+        //console.log(country_names_2016[countries_to_compare[i]]);
+        if(country_array[countries_to_compare[i]] !== undefined){
+            countries_to_graph[countries_to_compare[i]] = country_array[countries_to_compare[i]];
+        }
+    }
+    document.getElementById('chart_viz').style.height = "500px";
+    chartCountries("chart_viz", countries_to_graph);
+    document.getElementById('chart_viz').scrollIntoView();
+}    
+    
+//**************** end of D3 interactive overlay ***********************  
+    
 });
 
 function generateGlyphMap() {
@@ -301,3 +451,5 @@ function delim(num) {
   n = n.join("");
   return n;
 }
+
+

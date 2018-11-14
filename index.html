@@ -20,6 +20,15 @@
   <script src="world_happiness_data_js_arrays/data_2016.js"></script>
   <script src="world_happiness_data_js_arrays/data_2015.js"></script>
   
+  <!-- D3 overlay and Bar charts -->
+  <script src="node_modules/d3/d3.js"></script>
+  <script src="world.json"></script>
+  <script src="charts/plotly-latest.min.js"></script>
+  <script src="charts/chart_window.js"></script>
+  <script src="charts/format_data.js"></script> 
+  <script src="node_modules/topojson/build/topojson.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+    
   <!-- Glyph Map Script -->
   <script src="Country_List_ISO_3166_Codes_Latitude_Longitude.js"></script>
   <script src="API_SP.POP.TOTL_DS2_en_csv_v2_10203548.js"></script>
@@ -82,6 +91,9 @@
     </div>
     <div id="glyph-map"></div>
     <!-- TODO Legend manipulation, glyph sizing by population/territory/rank/none, scaling?, glyph assignement (percentile, threshold)-->
+    <div id="chart_viz" style="width:100%;">
+        <button type="submit" id="back_to_map">Go back to map</button>
+    </div>
   </div>
 </body>
 </html>
