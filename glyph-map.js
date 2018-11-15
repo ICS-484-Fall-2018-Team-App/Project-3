@@ -325,9 +325,21 @@ function makeGraph(){
         }
     }
     document.getElementById('chart_viz').style.height = "500px";
-    chartCountries("chart_viz", countries_to_graph);
+    //document.getElementById('individual_charts').style.height = "500px"; 
+    chartCountries("chart_viz", "individual_charts",
+                   "population_chart", "gdp_chart", "landmass_chart",
+                   countries_to_graph);
     document.getElementById('chart_viz').scrollIntoView();
-}    
+}   
+    
+
+    
+ document.getElementById("back_to_map").addEventListener("click", scrollToMap);
+    
+function scrollToMap(){
+        document.getElementById('glyph-map').scrollIntoView();
+}
+    
     
 //**************** end of D3 interactive overlay ***********************  
     
@@ -451,5 +463,4 @@ function delim(num) {
   n = n.join("");
   return n;
 }
-
 
