@@ -330,6 +330,8 @@ function makeGraph(){
                    "population_chart", "gdp_chart", "landmass_chart",
                    countries_to_graph);
     document.getElementById('chart_viz').scrollIntoView();
+    $('#country-select2').val(countries_to_compare[0]); //Grabs first selected country and selects it for individual view
+    $('#country-select2').trigger('change');
 }   
     
 
