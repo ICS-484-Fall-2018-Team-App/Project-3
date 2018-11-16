@@ -18,7 +18,8 @@ function chartIndividualCountry(country) {
             type: 'bar'
         }];
         let layout1 = {
-            title: 'Happiness Breakdown for Single Country'
+            title: 'Happiness Breakdown for Single Country',
+            plot_bgcolor: "rgb(0,0,0)"
         }
         Plotly.newPlot('stacked_bar', emptyData, layout1);
     } else {
@@ -81,7 +82,8 @@ function chartIndividualCountry(country) {
             },
             yaxis: {
                 range: [0, 10]
-            }
+            },
+            plot_bgcolor: "rgb(0,0,0)"
         };
         Plotly.newPlot('stacked_bar', stacked_bar_data, layout2);
     }
