@@ -1,4 +1,5 @@
 const select2_country_data = [
+    {"id": "Select a Country", "text": "Select a Country"},
     {"id": "Afghanistan", "text": "Afghanistan"},
     {"id": "Albania", "text": "Albania"},
     {"id": "Algeria", "text": "Algeria"},
