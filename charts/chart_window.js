@@ -1,5 +1,6 @@
-function chartCountries(chart_div, other_div, population_div, gdp_div, landmass_div, countries) {
-
+function chartCountries(chart_div, year, population_div, gdp_div, landmass_div, countries) {
+console.log("chart countries :");
+console.log(countries);
     let countries_to_graph = [];
     let country_names = [];
     
@@ -78,26 +79,50 @@ function chartCountries(chart_div, other_div, population_div, gdp_div, landmass_
     var data = trace;
 
     var layout = {barmode: 'group',
-                 title:'Happiness break down',
+                 title:'Happiness break down for year: ' + year,
                  plot_bgcolor: "rgb(0,0,0)",
                  margin: {
                      b:150
                  }};
     var layout2 = {barmode: 'group',
-                 title:'Population comparison',
+                 title:'Population comparison for year: ' + year,
                  plot_bgcolor: "rgb(0,0,0)",
+                 yaxis: {
+                    title: 'Number of People',
+                    titlefont: {
+                      //family: 'Courier New, monospace',
+                      size: 12,
+                      color: '#7f7f7f'
+                    }
+                 },                   
                  margin: {
                      b:150
                  }};
     var layout3 = {barmode: 'group',
-                 title:'GDP comparison',
+                 title:'GDP comparison for year: ' + year,
                  plot_bgcolor: "rgb(0,0,0)",
+                 yaxis: {
+                    title: 'Overall GDP ($)',
+                    titlefont: {
+                      //family: 'Courier New, monospace',
+                      size: 12,
+                      color: '#7f7f7f'
+                    }
+                 }, 
                  margin: {
                      b:150
                  }};
     var layout4 = {barmode: 'group',
-                 title:'Land Mass comparison',
+                 title:'Land Mass comparison for year: ' + year,
                  plot_bgcolor: "rgb(0,0,0)",
+                 yaxis: {
+                    title: 'Land Mass (km^2)',
+                    titlefont: {
+                      //family: 'Courier New, monospace',
+                      size: 12,
+                      color: '#7f7f7f'
+                    }
+                 },                    
                  margin: {
                      b:150
                  }};
