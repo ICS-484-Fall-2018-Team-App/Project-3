@@ -325,11 +325,19 @@ function makeGraph(){
         }
     }
     document.getElementById('chart_viz').style.height = "500px";
+    document.getElementById('individual-view').style.display = "inline";
     //document.getElementById('individual_charts').style.height = "500px"; 
-    chartCountries("chart_viz", "individual_charts",
+    chartCountries("chart_viz", year,
                    "population_chart", "gdp_chart", "landmass_chart",
                    countries_to_graph);
     document.getElementById('chart_viz').scrollIntoView();
+    if (countries_to_compare.length === 0) {
+      $('#country-select2').val('Select a Country');
+      $('#country-select2').trigger('change');
+    } else {
+      $('#country-select2').val(countries_to_compare[0]); //Grabs first selected country and selects it for individual view
+      $('#country-select2').trigger('change');
+    }
 }   
     
 
