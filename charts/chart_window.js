@@ -3,7 +3,10 @@ console.log("chart countries :");
 console.log(countries);
     let countries_to_graph = [];
     let country_names = [];
-    
+     var axis_color = '#FFFFFF';
+    var plot_grid_color;
+    var plot_outer_color;
+       
     for(let country in countries){
         let total = [];
         let c1_value_names = [];
@@ -62,37 +65,55 @@ console.log(countries);
             x: countries_to_graph[key][0],
             y: countries_to_graph[key][1],
             name: countries_to_graph[key][2],
-            type: 'bar'
+            type: 'bar',
+            textfont: {
+                color: axis_color
+            }
         };
         let newTrace_pop = {
             x: ['population'],
             y: countries_to_graph[key][3],
             name: countries_to_graph[key][2],
-            type: 'bar'
+            type: 'bar',
+            textfont: {
+                color: axis_color
+            }
         };
         let newTrace_gdp = {
             x: ['gdp'],
             y: countries_to_graph[key][4],
             name: countries_to_graph[key][2],
-            type: 'bar'
+            type: 'bar',
+            textfont: {
+                color: axis_color
+            }
         };
         let newTrace_land = {
             x: ['land mass'],
             y: countries_to_graph[key][5],
             name: countries_to_graph[key][2],
-            type: 'bar'
+            type: 'bar',
+            textfont: {
+                color: axis_color
+            }
         };
         let newTrace_gdp_per_capita = {
             x: ['gdp per capita'],
             y: countries_to_graph[key][7],
             name: countries_to_graph[key][2],
-            type: 'bar'
+            type: 'bar',
+            textfont: {
+                color: axis_color
+            }            
         };
         let newTrace_population_density = {
             x: ['population density'],
             y: countries_to_graph[key][8],
             name: countries_to_graph[key][2],
-            type: 'bar'
+            type: 'bar',
+            textfont: {
+                color: axis_color
+            }
         };        
         trace.push(newTrace);
         pop_trace.push(newTrace_pop);
@@ -102,22 +123,24 @@ console.log(countries);
         population_density_trace.push(newTrace_population_density);
     }
     var data = trace;
-
+    
     var layout = {barmode: 'group',
                  title:'Happiness break down for year: ' + year,
-                 plot_bgcolor: "rgb(0,0,0)",
+                 plot_bgcolor: "rgba(0,0,0,0)",
+                 paper_bgcolor: 'rgba(0,0,0,0)',  
                  margin: {
                      b:150
                  }};
     var layout2 = {barmode: 'group',
                  title:'Population comparison for year: ' + year,
-                 plot_bgcolor: "rgb(0,0,0)",
+                 plot_bgcolor: "rgba(0,0,0,0)",
+                 paper_bgcolor: 'rgba(0,0,0,0)',   
                  yaxis: {
                     title: 'Number of People',
                     titlefont: {
                       //family: 'Courier New, monospace',
                       size: 12,
-                      color: '#7f7f7f'
+                      color: axis_color
                     }
                  },                   
                  margin: {
@@ -125,13 +148,14 @@ console.log(countries);
                  }};
     var layout3 = {barmode: 'group',
                  title:'Overall GDP comparison for year: ' + year,
-                 plot_bgcolor: "rgb(0,0,0)",
+                 plot_bgcolor: "rgba(0,0,0,0)",
+                 paper_bgcolor: 'rgba(0,0,0,0)',   
                  yaxis: {
                     title: 'Overall GDP ($)',
                     titlefont: {
                       //family: 'Courier New, monospace',
                       size: 12,
-                      color: '#7f7f7f'
+                      color: axis_color
                     }
                  }, 
                  margin: {
@@ -139,13 +163,14 @@ console.log(countries);
                  }};
     var layout4 = {barmode: 'group',
                  title:'Land Mass comparison for year: ' + year,
-                 plot_bgcolor: "rgb(0,0,0)",
+                 plot_bgcolor: "rgba(0,0,0,0)",
+                 paper_bgcolor: 'rgba(0,0,0,0)',
                  yaxis: {
                     title: 'Land Mass (km^2)',
                     titlefont: {
                       //family: 'Courier New, monospace',
                       size: 12,
-                      color: '#7f7f7f'
+                      color: axis_color
                     }
                  },                    
                  margin: {
@@ -153,13 +178,14 @@ console.log(countries);
                  }};
     var layout5 = {barmode: 'group',
                  title:'Gdp per Capita: ' + year,
-                 plot_bgcolor: "rgb(0,0,0)",
+                 plot_bgcolor: "rgba(0,0,0,0)",
+                paper_bgcolor: 'rgba(0,0,0,0)',
                  yaxis: {
                     title: 'average GDP per perosn ($)',
                     titlefont: {
                       //family: 'Courier New, monospace',
                       size: 12,
-                      color: '#7f7f7f'
+                      color: axis_color
                     }
                  },                    
                  margin: {
@@ -167,13 +193,14 @@ console.log(countries);
                  }};
         var layout6 = {barmode: 'group',
                  title:'Population Density: ' + year,
-                 plot_bgcolor: "rgb(0,0,0)",
+                 plot_bgcolor: "rgba(0,0,0,0)",
+                 paper_bgcolor: 'rgba(0,0,0,0)',       
                  yaxis: {
                     title: 'People per (km^2)',
                     titlefont: {
                       //family: 'Courier New, monospace',
                       size: 12,
-                      color: '#7f7f7f'
+                      color: axis_color
                     }
                  },                    
                  margin: {
