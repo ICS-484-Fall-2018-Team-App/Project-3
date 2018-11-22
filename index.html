@@ -36,6 +36,7 @@
   <script src="node_modules/topojson/build/topojson.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
   <script src="charts/single_country.js"></script>
+  <script src="node_modules/three/three2.js"></script> 
     
   <!-- Glyph Map Script -->
   <script src="Country_List_ISO_3166_Codes_Latitude_Longitude.js"></script>
@@ -64,6 +65,8 @@
         <h5 class="">In the modern age there has been a rapid increase in the quality of living around the world. But how </h5>
       </div>
     </div>
+            <div id="earth_div" style="position:absolute; top:15px; z-index=-3; background-color:none;">
+      </div>
   </div>
   
   <div style="height: 70vh" class="bg-light">
@@ -132,12 +135,19 @@
     <div id="glyph-map"></div>
     <!-- TODO Legend manipulation, glyph sizing by population/territory/rank/none, scaling?, glyph assignement (percentile, threshold)-->
      <button type="submit" id="back_to_map">Go back to map</button>
-      <div>
-            <select class="form-control" id="glyph-map-year" onchange="generateGlyphMap();restyle()">
+      <div class="text-center" style="background-color:grey; ">
+        <div class="input-group mx-auto">  
+            <div class="input-group-prepend">
+              <span class="input-group-text">Display Year</span>
+            </div>
+          <div class="col-3">
+            <select class="form-control" id="glyph-map-year" onchange="generateGlyphMap();restyle();makeChart(this.value);">
               <option value="2017" selected>2017</option>
               <option value="2016">2016</option>
               <option value="2015">2015</option>
             </select>
+          </div>
+        </div>
     </div>
     <div id="chart_viz" style="width:100%; background-color:grey;">
     </div>

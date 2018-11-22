@@ -3,6 +3,7 @@ let glyphMarkers;
 let glyphLegend;
 let glyphMax = 24, glyphMin = 12;
 let restyle;
+let makeChart;
 const HighPop = {
   "2017": 0,
   "2016": 0,
@@ -31,6 +32,59 @@ const HighGDPPC = {
 
 
 $(document).ready(function() {
+        var scene = new THREE.Scene();
+        
+    var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 6000);
+    camera.position.z = 500;
+        
+    //controls = new THREE.OrbitControls( camera );
+    //controls.target.set( 0, 1.5, 0 );
+    //controls.update();
+        
+    var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById("earth_div").appendChild(renderer.domElement);
+
+    var light = new THREE.HemisphereLight('#fff', '#666', 1.25);
+    light.position.set(0, 500, 0);
+    scene.add(light);
+        
+        
+    let diffuseMap = new THREE.TextureLoader().load("textures/Albedo.jpg");
+    let cloudMap = new THREE.TextureLoader().load("textures/Clouds.png");       
+        
+    var map_sphere = new THREE.SphereGeometry(200, 50, 50);
+    var cloud_sphere = new THREE.SphereGeometry(210, 50, 50);
+        
+    var map_material = new THREE.MeshPhongMaterial({map: diffuseMap, transparent: true});  
+        
+    var cloud_material = new THREE.MeshPhongMaterial({
+        map: cloudMap, 
+        alphaMap: cloudMap,
+        transparent: true,
+        //side: THREE.DoubleSide,
+        //opacity: 0.8,
+        depthWrite: false,
+    });   
+        
+    var earth = new THREE.Mesh(map_sphere, map_material);
+    var clouds = new THREE.Mesh(cloud_sphere, cloud_material);
+        
+    var root = new THREE.Object3D();     
+    root.add(earth);
+    root.add(clouds);    
+    scene.add(root);
+       
+    function render() {
+      //root.rotation.y += 0.02;
+      earth.rotation.y += .005;
+      clouds.rotation.y +=.01;   
+      requestAnimationFrame(render);
+      renderer.render(scene, camera);
+    }
+
+    render();        
+        
     
   let country_by_name = country_by_key();
   let countries_to_compare = [];
@@ -196,7 +250,7 @@ $(document).ready(function() {
 //**************** D3 interactive overlay ************************
 
 L.easyButton('<img src="/path/to/img/of/penguin.png">', function(btn, map){
-    makeGraph();
+    makeGraph($("#glyph-map-year option:selected").val());
     document.getElementById('chart_viz').scrollIntoView();
 }).addTo( glyphMap );
     
@@ -336,8 +390,9 @@ let geojson = L.geoJson(countries, {
 }).addTo(glyphMap);    
     
  
-function makeGraph(){
-    let year = $("#glyph-map-year option:selected").val();
+function makeGraph(selectedYear){
+    //let year = $("#glyph-map-year option:selected").val();
+    let year = selectedYear;
     let countries_to_graph = [];
     let country_array;
     if(year === '2015'){
@@ -371,7 +426,7 @@ function makeGraph(){
     }
 }   
     
-
+makeChart = makeGraph;
     
  document.getElementById("back_to_map").addEventListener("click", scrollToMap);
     
