@@ -125,7 +125,6 @@ console.log(countries);
     var data = trace;
     
     var layout = {barmode: 'group',
-                 title:'Happiness break down for year: ' + year,
                  plot_bgcolor: "rgba(0,0,0,0)",
                  paper_bgcolor: 'rgba(0,0,0,0)',  
                  margin: {

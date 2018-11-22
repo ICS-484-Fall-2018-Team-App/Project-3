@@ -132,6 +132,13 @@
     <div id="glyph-map"></div>
     <!-- TODO Legend manipulation, glyph sizing by population/territory/rank/none, scaling?, glyph assignement (percentile, threshold)-->
      <button type="submit" id="back_to_map">Go back to map</button>
+      <div>
+            <select class="form-control" id="glyph-map-year" onchange="generateGlyphMap();restyle()">
+              <option value="2017" selected>2017</option>
+              <option value="2016">2016</option>
+              <option value="2015">2015</option>
+            </select>
+    </div>
     <div id="chart_viz" style="width:100%; background-color:grey;">
     </div>
     <div id="individual_charts" class="form-inline" style="width:100%; background-color:grey;">
