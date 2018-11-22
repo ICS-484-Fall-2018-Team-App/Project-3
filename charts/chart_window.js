@@ -1,4 +1,4 @@
-function chartCountries(chart_div, year, population_div, gdp_div, landmass_div, countries) {
+function chartCountries(chart_div, year, population_div, gdp_div, landmass_div, population_density_div, gdp_per_capita_div, countries) {
 console.log("chart countries :");
 console.log(countries);
     let countries_to_graph = [];
@@ -32,6 +32,7 @@ console.log(countries);
                 rank = countries[country][key];
             }
         }
+
         total.push(c1_value_names);
         total.push(c1_values);
         total.push(country);
@@ -45,7 +46,17 @@ console.log(countries);
     let pop_trace = [];
     let gdp_trace = [];
     let landmass_trace = [];
-    
+    let gdp_per_capita_trace = [];
+    let population_density_trace = [];
+
+    for(let i=0; i<countries_to_graph.length; i++){
+        let gdp_per_capita = countries_to_graph[i][4] / countries_to_graph[i][3];
+        let population_density = countries_to_graph[i][3] / countries_to_graph[i][5];
+        
+        countries_to_graph[i].push([gdp_per_capita]);
+        countries_to_graph[i].push([population_density]);
+
+    }
     for(let key in countries_to_graph){
         let newTrace = {
             x: countries_to_graph[key][0],
@@ -71,10 +82,24 @@ console.log(countries);
             name: countries_to_graph[key][2],
             type: 'bar'
         };
+        let newTrace_gdp_per_capita = {
+            x: ['gdp per capita'],
+            y: countries_to_graph[key][7],
+            name: countries_to_graph[key][2],
+            type: 'bar'
+        };
+        let newTrace_population_density = {
+            x: ['population density'],
+            y: countries_to_graph[key][8],
+            name: countries_to_graph[key][2],
+            type: 'bar'
+        };        
         trace.push(newTrace);
         pop_trace.push(newTrace_pop);
         gdp_trace.push(newTrace_gdp);
         landmass_trace.push(newTrace_land);
+        gdp_per_capita_trace.push(newTrace_gdp_per_capita);
+        population_density_trace.push(newTrace_population_density);
     }
     var data = trace;
 
@@ -99,7 +124,7 @@ console.log(countries);
                      b:150
                  }};
     var layout3 = {barmode: 'group',
-                 title:'GDP comparison for year: ' + year,
+                 title:'Overall GDP comparison for year: ' + year,
                  plot_bgcolor: "rgb(0,0,0)",
                  yaxis: {
                     title: 'Overall GDP ($)',
@@ -126,11 +151,40 @@ console.log(countries);
                  margin: {
                      b:150
                  }};
-
+    var layout5 = {barmode: 'group',
+                 title:'Gdp per Capita: ' + year,
+                 plot_bgcolor: "rgb(0,0,0)",
+                 yaxis: {
+                    title: 'average GDP per perosn ($)',
+                    titlefont: {
+                      //family: 'Courier New, monospace',
+                      size: 12,
+                      color: '#7f7f7f'
+                    }
+                 },                    
+                 margin: {
+                     b:150
+                 }};
+        var layout6 = {barmode: 'group',
+                 title:'Population Density: ' + year,
+                 plot_bgcolor: "rgb(0,0,0)",
+                 yaxis: {
+                    title: 'People per (km^2)',
+                    titlefont: {
+                      //family: 'Courier New, monospace',
+                      size: 12,
+                      color: '#7f7f7f'
+                    }
+                 },                    
+                 margin: {
+                     b:150
+                 }};
     Plotly.newPlot(chart_div, data, layout);
     Plotly.newPlot(population_div, pop_trace, layout2);
     Plotly.newPlot(gdp_div, gdp_trace, layout3);
     Plotly.newPlot(landmass_div, landmass_trace, layout4);
+    Plotly.newPlot(gdp_per_capita_div, gdp_per_capita_trace, layout5);
+    Plotly.newPlot(population_density_div, population_density_trace, layout6);
     
 }
 

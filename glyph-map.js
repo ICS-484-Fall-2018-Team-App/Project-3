@@ -329,6 +329,7 @@ function makeGraph(){
     //document.getElementById('individual_charts').style.height = "500px"; 
     chartCountries("chart_viz", year,
                    "population_chart", "gdp_chart", "landmass_chart",
+                   "population_density_char","gdp_per_capita_chart",
                    countries_to_graph);
     document.getElementById('chart_viz').scrollIntoView();
     if (countries_to_compare.length === 0) {

@@ -45,15 +45,13 @@
         
         
     let diffuseMap = new THREE.TextureLoader().load("textures/Albedo.jpg");
-    let cloudMap = new THREE.TextureLoader().load("textures/Clouds.png");  
-    //let cloudMap = new THREE.TextureLoader().load("textures/Clouds2.png"); 
-    let bumpMap = new THREE.TextureLoader().load("textures/Bump.jpg");       
+    let cloudMap = new THREE.TextureLoader().load("textures/Clouds.png");       
         
-    var map_sphere = new THREE.SphereGeometry(200, 300, 300);
-    var cloud_sphere = new THREE.SphereGeometry(210, 300, 300);
+    var map_sphere = new THREE.SphereGeometry(200, 50, 50);
+    var cloud_sphere = new THREE.SphereGeometry(210, 50, 50);
         
     var map_material = new THREE.MeshPhongMaterial({map: diffuseMap, transparent: true});  
-    map_material.bumpMap = bumpMap;  
+        
     var cloud_material = new THREE.MeshPhongMaterial({
         map: cloudMap, 
         alphaMap: cloudMap,
@@ -65,8 +63,7 @@
         
     var earth = new THREE.Mesh(map_sphere, map_material);
     var clouds = new THREE.Mesh(cloud_sphere, cloud_material);
-    
-    
+        
     var root = new THREE.Object3D();     
     root.add(earth);
     root.add(clouds);    
