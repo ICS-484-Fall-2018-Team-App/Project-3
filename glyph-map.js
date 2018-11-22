@@ -172,6 +172,10 @@ $(document).ready(function() {
   
   generateGlyphMap();
   
+  toggledCountries["United States"]=1;
+  countries_to_compare.push("United States");
+  makeGraph();
+  
   // Building Gylph Legend
   glyphLegend = L.control({position: "bottomleft"});
   glyphLegend.onAdd = function (map) {
@@ -270,7 +274,7 @@ function resetHighlight(e) {
 }
 
 function toggleFeature(e) {
-    if(toggledCountries[e.target.feature.id] == undefined ||         toggledCountries[e.target.feature.id] == 0){
+    if(toggledCountries[e.target.feature.id] == undefined || toggledCountries[e.target.feature.id] == 0){
         toggledCountries[e.target.feature.id] = 1;
         countries_to_compare.push(e.target.feature.id);
     } else {
@@ -296,6 +300,16 @@ function onEachFeature(feature, layer) {
         mouseout: resetHighlight,
         click: toggleFeature
     });
+    console.log(feature);
+    if(feature.id == "United States") {
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+      layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.05
+    })
+    }
 }
 
 geojson = L.geoJson(countries, {
@@ -330,7 +344,7 @@ function makeGraph(){
     chartCountries("chart_viz", year,
                    "population_chart", "gdp_chart", "landmass_chart",
                    countries_to_graph);
-    document.getElementById('chart_viz').scrollIntoView();
+    //document.getElementById('chart_viz').scrollIntoView();
     if (countries_to_compare.length === 0) {
       $('#country-select2').val('Select a Country');
       $('#country-select2').trigger('change');
