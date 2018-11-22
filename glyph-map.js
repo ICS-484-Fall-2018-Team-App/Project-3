@@ -197,6 +197,7 @@ $(document).ready(function() {
 
 L.easyButton('<img src="/path/to/img/of/penguin.png">', function(btn, map){
     makeGraph();
+    document.getElementById('chart_viz').scrollIntoView();
 }).addTo( glyphMap );
     
 // control that shows state info on hover
