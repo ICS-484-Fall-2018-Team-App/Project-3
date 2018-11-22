@@ -19,5 +19,7 @@ function country_by_key(){
     countries_by_year.push(country_2016);
     countries_by_year.push(country_2017);
     
+    console.log(country_2015);
+    
     return countries_by_year;
 }

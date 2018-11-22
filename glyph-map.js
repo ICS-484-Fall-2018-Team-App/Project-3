@@ -2,6 +2,7 @@ let glyphMap;
 let glyphMarkers;
 let glyphLegend;
 let glyphMax = 24, glyphMin = 12;
+let restyle;
 const HighPop = {
   "2017": 0,
   "2016": 0,
@@ -37,7 +38,7 @@ $(document).ready(function() {
   let countries = topojson.feature(countryData, countryData.objects.countries);    
   
   //Setting Up Leaflet Map
-  glyphMap = L.map('glyph-map').setView([0, 0], 2);
+  glyphMap = L.map('glyph-map').setView([20, 0], 2);
   
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {//TODO API KEY
 		maxZoom: 18,
@@ -172,6 +173,10 @@ $(document).ready(function() {
   
   generateGlyphMap();
   
+  toggledCountries["United States"]=1;
+  countries_to_compare.push("United States");
+  makeGraph();
+  
   // Building Gylph Legend
   glyphLegend = L.control({position: "bottomleft"});
   glyphLegend.onAdd = function (map) {
@@ -229,25 +234,46 @@ info.update = function (props) {
 info.addTo(glyphMap);
 
 
-// get color depending on population density value
+// get color depending on happiness rank
 
 function style(feature) {
-    return {
-        weight: 2,
-        opacity: 1,
-        color: 'transparent',
-        dashArray: '3',
-        fillOpacity: 0.7
-        //fillColor: getColor(feature.properties.density)
-    };
+  let year = $("#glyph-map-year option:selected").val();
+  let data = year == 2017 ? country_by_name[2] : year == 2016 ? country_by_name[1] : country_by_name[0];
+  //console.log(data[feature.id]);
+  let clr = data[feature.id] == null ? "#333" : data[feature.id]["Happiness Rank"] < 31 ? "#40ff00" : 
+    data[feature.id]["Happiness Rank"] < 61 ? "#99ff66" :
+    data[feature.id]["Happiness Rank"] < 91 ? "#00ffbf" :
+    data[feature.id]["Happiness Rank"] < 121 ? "#00bfff" :"#0040ff";
+  return {
+    weight: 2,
+    opacity: 0.5,
+    color: clr,
+    dashArray: '3',
+    fillOpacity: 0.7
+    //fillColor: getColor(feature.properties.density)
+  };
 }
+
+restyle = function() {
+  console.log("ran");
+  $.each(geojson._layers, function(i, val){
+    //console.log(val);
+    //console.log(val.feature);
+    glyphMap.removeLayer(val);
+    
+  });
+  geojson = L.geoJson(countries, {
+      style: style,
+      onEachFeature: onEachFeature
+    }).addTo(glyphMap);  
+} 
 
 function highlightFeature(e) {
     var layer = e.target;
     //console.log(e.target.feature);
     layer.setStyle({
         weight: 5,
-        color: '#666',
+        //color: '#666',
         dashArray: '',
         fillOpacity: 0.05
     });
@@ -259,18 +285,16 @@ function highlightFeature(e) {
     info.update(layer.feature.id);
 }
 
-var geojson;
-
 function resetHighlight(e) {
-    if(toggledCountries[e.target.feature.id] == undefined ||
-       toggledCountries[e.target.feature.id] == 0){
-    geojson.resetStyle(e.target);
-    info.update();
-    }
+  if(toggledCountries[e.target.feature.id] == undefined ||
+    toggledCountries[e.target.feature.id] == 0){
+  geojson.resetStyle(e.target);
+  info.update();
+  }
 }
 
 function toggleFeature(e) {
-    if(toggledCountries[e.target.feature.id] == undefined ||         toggledCountries[e.target.feature.id] == 0){
+    if(toggledCountries[e.target.feature.id] == undefined || toggledCountries[e.target.feature.id] == 0){
         toggledCountries[e.target.feature.id] = 1;
         countries_to_compare.push(e.target.feature.id);
     } else {
@@ -296,9 +320,16 @@ function onEachFeature(feature, layer) {
         mouseout: resetHighlight,
         click: toggleFeature
     });
+    if(feature.id == "United States") {
+      layer.setStyle({
+        weight: 5,
+        dashArray: '',
+        fillOpacity: 0.05
+    });
+    }
 }
 
-geojson = L.geoJson(countries, {
+let geojson = L.geoJson(countries, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(glyphMap);    
@@ -308,7 +339,6 @@ function makeGraph(){
     let year = $("#glyph-map-year option:selected").val();
     let countries_to_graph = [];
     let country_array;
-   console.log(year);
     if(year === '2015'){
         country_array = country_by_name[0];
     }else if(year === '2016'){
@@ -316,7 +346,6 @@ function makeGraph(){
     }else{
         country_array = country_by_name[2];
     }
-     console.log(country_array);
  
     for(let i=0; i< countries_to_compare.length; i++){
         //console.log(country_names_2016[countries_to_compare[i]]);
@@ -331,7 +360,7 @@ function makeGraph(){
                    "population_chart", "gdp_chart", "landmass_chart",
                    "population_density_char","gdp_per_capita_chart",
                    countries_to_graph);
-    document.getElementById('chart_viz').scrollIntoView();
+    //document.getElementById('chart_viz').scrollIntoView();
     if (countries_to_compare.length === 0) {
       $('#country-select2').val('Select a Country');
       $('#country-select2').trigger('change');

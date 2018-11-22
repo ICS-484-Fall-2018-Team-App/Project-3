@@ -1512,7 +1512,7 @@ const country_lat_lon = [
     "Icon": ""
   },
   {
-    "Country": "Guinea",
+    "Country": "Pau Pau Guinea",
     "Alpha-2 code": "PG",
     "Alpha-3 code": "PNG",
     "Numeric code": 598,
