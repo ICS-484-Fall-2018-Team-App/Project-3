@@ -2,6 +2,7 @@ let glyphMap;
 let glyphMarkers;
 let glyphLegend;
 let glyphMax = 24, glyphMin = 12;
+let restyle;
 const HighPop = {
   "2017": 0,
   "2016": 0,
@@ -37,7 +38,7 @@ $(document).ready(function() {
   let countries = topojson.feature(countryData, countryData.objects.countries);    
   
   //Setting Up Leaflet Map
-  glyphMap = L.map('glyph-map').setView([0, 0], 2);
+  glyphMap = L.map('glyph-map').setView([20, 0], 2);
   
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {//TODO API KEY
 		maxZoom: 18,
@@ -238,7 +239,7 @@ info.addTo(glyphMap);
 function style(feature) {
   let year = $("#glyph-map-year option:selected").val();
   let data = year == 2017 ? country_by_name[2] : year == 2016 ? country_by_name[1] : country_by_name[0];
-  console.log(data[feature.id]);
+  //console.log(data[feature.id]);
   let clr = data[feature.id] == null ? "#333" : data[feature.id]["Happiness Rank"] < 31 ? "#40ff00" : 
     data[feature.id]["Happiness Rank"] < 61 ? "#99ff66" :
     data[feature.id]["Happiness Rank"] < 91 ? "#00ffbf" :
@@ -253,9 +254,23 @@ function style(feature) {
   };
 }
 
+restyle = function() {
+  console.log("ran");
+  $.each(geojson._layers, function(i, val){
+    //console.log(val);
+    //console.log(val.feature);
+    glyphMap.removeLayer(val);
+    
+  });
+  geojson = L.geoJson(countries, {
+      style: style,
+      onEachFeature: onEachFeature
+    }).addTo(glyphMap);  
+} 
+
 function highlightFeature(e) {
     var layer = e.target;
-    console.log(e.target.feature);
+    //console.log(e.target.feature);
     layer.setStyle({
         weight: 5,
         //color: '#666',
@@ -269,8 +284,6 @@ function highlightFeature(e) {
 
     info.update(layer.feature.id);
 }
-
-var geojson;
 
 function resetHighlight(e) {
   if(toggledCountries[e.target.feature.id] == undefined ||
@@ -316,7 +329,7 @@ function onEachFeature(feature, layer) {
     }
 }
 
-geojson = L.geoJson(countries, {
+let geojson = L.geoJson(countries, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(glyphMap);    
