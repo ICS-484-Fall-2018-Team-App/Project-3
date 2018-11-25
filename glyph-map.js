@@ -229,7 +229,7 @@ $(document).ready(function() {
   
   toggledCountries["United States"]=1;
   countries_to_compare.push("United States");
-  makeGraph();
+  makeGraph($("#glyph-map-year option:selected").val());
   
   // Building Gylph Legend
   glyphLegend = L.control({position: "bottomleft"});
@@ -251,7 +251,7 @@ $(document).ready(function() {
 
 L.easyButton('<img src="/path/to/img/of/penguin.png">', function(btn, map){
     makeGraph($("#glyph-map-year option:selected").val());
-    document.getElementById('chart_viz').scrollIntoView();
+    document.getElementById('glyph-map-year-bottom').scrollIntoView();
 }).addTo( glyphMap );
     
 // control that shows state info on hover
@@ -294,19 +294,31 @@ info.addTo(glyphMap);
 function style(feature) {
   let year = $("#glyph-map-year option:selected").val();
   let data = year == 2017 ? country_by_name[2] : year == 2016 ? country_by_name[1] : country_by_name[0];
+  let featureStyle;
   //console.log(data[feature.id]);
   let clr = data[feature.id] == null ? "#333" : data[feature.id]["Happiness Rank"] < 31 ? "#40ff00" : 
     data[feature.id]["Happiness Rank"] < 61 ? "#99ff66" :
     data[feature.id]["Happiness Rank"] < 91 ? "#00ffbf" :
     data[feature.id]["Happiness Rank"] < 121 ? "#00bfff" :"#0040ff";
-  return {
-    weight: 2,
-    opacity: 0.5,
-    color: clr,
-    dashArray: '3',
-    fillOpacity: 0.7
-    //fillColor: getColor(feature.properties.density)
-  };
+    if(toggledCountries[feature.id] == undefined ||
+    toggledCountries[feature.id] == 0){
+        featureStyle = {
+            weight: 2,
+            opacity: 0.5,
+            color: clr,
+            dashArray: '3',
+            fillOpacity: 0.7
+            //fillColor: getColor(feature.properties.density)
+        };
+    }else{
+        featureStyle = {
+            weight: 5,
+            color: clr,
+            dashArray: '',
+            fillOpacity: 0.05
+      };
+    }
+  return featureStyle;
 }
 
 restyle = function() {
@@ -402,7 +414,8 @@ function makeGraph(selectedYear){
     }else{
         country_array = country_by_name[2];
     }
- 
+    document.getElementById("glyph-map-year-bottom").value=selectedYear;
+    document.getElementById("glyph-map-year").value=selectedYear;
     for(let i=0; i< countries_to_compare.length; i++){
         //console.log(country_names_2016[countries_to_compare[i]]);
         if(country_array[countries_to_compare[i]] !== undefined){

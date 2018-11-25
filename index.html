@@ -93,7 +93,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">Display Year</span>
             </div>
-            <select class="form-control" id="glyph-map-year" onchange="generateGlyphMap();restyle()">
+            <select class="form-control" id="glyph-map-year" onchange="makeChart(this.value);generateGlyphMap();restyle()">
               <option value="2017" selected>2017</option>
               <option value="2016">2016</option>
               <option value="2015">2015</option>
@@ -136,12 +136,14 @@
     <!-- TODO Legend manipulation, glyph sizing by population/territory/rank/none, scaling?, glyph assignement (percentile, threshold)-->
      <button type="submit" id="back_to_map">Go back to map</button>
       <div class="text-center" style="background-color:grey; ">
-        <div class="input-group mx-auto">  
+        <div class="input-group mx-auto" style="margin-top:10px;">  
             <div class="input-group-prepend">
-              <span class="input-group-text">Display Year</span>
+              <span class="input-group-text" style="margin-top:15px; margin-left:10px;">Display Year</span>
             </div>
           <div class="col-3">
-            <select class="form-control" id="glyph-map-year" onchange="generateGlyphMap();restyle();makeChart(this.value);">
+            <select class="form-control" id="glyph-map-year-bottom" 
+                style="margin-top:15px;"
+               onchange="makeChart(this.value);generateGlyphMap();restyle()">
               <option value="2017" selected>2017</option>
               <option value="2016">2016</option>
               <option value="2015">2015</option>
