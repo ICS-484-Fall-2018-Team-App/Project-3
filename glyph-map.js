@@ -32,6 +32,7 @@ const HighGDPPC = {
 
 
 $(document).ready(function() {
+    /*
         var scene = new THREE.Scene();
         
     var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 6000);
@@ -84,7 +85,7 @@ $(document).ready(function() {
     }
 
     render();        
-        
+   */     
     
   let country_by_name = country_by_key();
   let countries_to_compare = [];
@@ -253,35 +254,30 @@ L.easyButton('<img src="/path/to/img/of/penguin.png">', function(btn, map){
     makeGraph($("#glyph-map-year option:selected").val());
     document.getElementById('glyph-map-year-bottom').scrollIntoView();
 }).addTo( glyphMap );
+
+L.easyButton('fa-gbp', function(){
+    glyphMap.setView([20, 0], 2);
+}).addTo( glyphMap );
+
     
 // control that shows state info on hover
 var info = L.control();
 
 info.onAdd = function (glyphMap) {
-    this._div = L.DomUtil.create('div', 'info');
+    this._div = L.DomUtil.create('country_hover');
     this.update();
+    this._div.style.color='#fff';
     return this._div;
 };
 
 info.update = function (props) {
     let text = '<h4>Country</h4><b>';
     if(props){
-        text += props;    
+        text += "<h5>" + props + "</h5>";    
     } else {
-        text += "No Country Selected";
+        text += "<h5>No Country Selected<h5>";
     }
-    text += '</b><br />';      
-    if(countries_to_compare.length > 0){
-        for(let i=0; i<countries_to_compare.length; i++){
-            text+= countries_to_compare[i] + ", ";
-            if(i>3){
-                text+= "....";
-                break;
-            }
-        }
-    }else{
-        text += "No Countries Selected";
-    }
+
     this._div.innerHTML = text;
 
 };
