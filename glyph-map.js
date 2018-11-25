@@ -301,7 +301,7 @@ function style(feature) {
     data[feature.id]["Happiness Rank"] < 91 ? "#00ffbf" :
     data[feature.id]["Happiness Rank"] < 121 ? "#00bfff" :"#0040ff";
     if(toggledCountries[feature.id] == undefined ||
-    toggledCountries[feature.id] == 0){
+       toggledCountries[feature.id] == 0){
         featureStyle = {
             weight: 2,
             opacity: 0.5,

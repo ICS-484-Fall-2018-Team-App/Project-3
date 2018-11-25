@@ -17,7 +17,7 @@ console.log(countries);
         let landmass = [];
         for(let key in countries[country]){
             if(key!== 'Country' && key!== 'Region' && key!== 'Happiness Rank' &&
-               key!== 'Lower Confidence Interval' && key!== 'Upper Confidence Interval' && key!=='Lat' && key!== 'Lon' && key!== 'Population' && key!== 'Land Mass' && key!== 'GDP' && key!== 'Whisker.high' && key!== 'Whisker.low')
+               key!== 'Lower Confidence Interval' && key!== 'Upper Confidence Interval' && key!=='Lat' && key!== 'Lon' && key!== 'Population' && key!== 'Land Mass' && key!== 'GDP' && key!== 'Whisker.high' && key!== 'Whisker.low' && key!== 'Standard Error')
             {
                 c1_value_names.push(key);
                 c1_values.push(countries[country][key]);
@@ -126,6 +126,14 @@ console.log(countries);
     
     var layout = {barmode: 'group',
                  title: 'World Happiness Breakdown: ' + year,
+                 font: {
+                   size: 12,
+                   color: axis_color
+                 },
+                 titlefont: {
+                    size: 16,
+                    color: axis_color
+                 },
                  plot_bgcolor: "rgba(0,0,0,0)",
                  paper_bgcolor: 'rgba(0,0,0,0)',  
                  margin: {
@@ -133,6 +141,14 @@ console.log(countries);
                  }};
     var layout2 = {barmode: 'group',
                  title:'Population comparison for year: ' + year,
+                 font: {
+                   size: 12,
+                   color: axis_color
+                 },
+                 titlefont: {
+                    size: 16,
+                    color: axis_color
+                 },                   
                  plot_bgcolor: "rgba(0,0,0,0)",
                  paper_bgcolor: 'rgba(0,0,0,0)',   
                  yaxis: {
@@ -148,6 +164,14 @@ console.log(countries);
                  }};
     var layout3 = {barmode: 'group',
                  title:'Overall GDP comparison for year: ' + year,
+                 font: {
+                   size: 12,
+                   color: axis_color
+                 },
+                 titlefont: {
+                    size: 16,
+                    color: axis_color
+                 },                   
                  plot_bgcolor: "rgba(0,0,0,0)",
                  paper_bgcolor: 'rgba(0,0,0,0)',   
                  yaxis: {
@@ -163,6 +187,14 @@ console.log(countries);
                  }};
     var layout4 = {barmode: 'group',
                  title:'Land Mass comparison for year: ' + year,
+                  font: {
+                   size: 12,
+                   color: axis_color
+                 },
+                 titlefont: {
+                    size: 16,
+                    color: axis_color
+                 },                  
                  plot_bgcolor: "rgba(0,0,0,0)",
                  paper_bgcolor: 'rgba(0,0,0,0)',
                  yaxis: {
@@ -178,6 +210,14 @@ console.log(countries);
                  }};
     var layout5 = {barmode: 'group',
                  title:'Gdp per Capita: ' + year,
+                 font: {
+                   size: 12,
+                   color: axis_color
+                 },
+                 titlefont: {
+                    size: 16,
+                    color: axis_color
+                 },                  
                  plot_bgcolor: "rgba(0,0,0,0)",
                 paper_bgcolor: 'rgba(0,0,0,0)',
                  yaxis: {
@@ -193,10 +233,18 @@ console.log(countries);
                  }};
         var layout6 = {barmode: 'group',
                  title:'Population Density: ' + year,
+                  font: {
+                   size: 12,
+                   color: axis_color
+                 },
+                 titlefont: {
+                    size: 16,
+                    color: axis_color
+                 },                      
                  plot_bgcolor: "rgba(0,0,0,0)",
                  paper_bgcolor: 'rgba(0,0,0,0)',       
                  yaxis: {
-                    title: 'People per (km^2)',
+                    title: 'People per square kilmeter area (km^2)',
                     titlefont: {
                       //family: 'Courier New, monospace',
                       size: 12,
@@ -216,3 +264,129 @@ console.log(countries);
 }
 
 
+
+
+
+function makeScatterPlot(chart_div) {
+        
+        var region = [];
+        var country_2016 = [];
+        var GDP_2016 = [];
+        var happiness_score_2016 = [];  
+        var region_2016 = [];
+        
+        for(var i=0; i<data_2017.length; i++) {
+            country_2016[i] = data_2016[i]["Country"];
+            GDP_2016[i] = data_2016[i]["Economy (GDP per Capita)"];
+            happiness_score_2016[i] = data_2016[i]["Happiness Score"];
+            //region_2016[i] = region_color[data_2016[i]["Region"]];
+            var country = {
+                name: data_2016[i]["Country"],
+                GDP: data_2016[i]["Economy (GDP per Capita)"],
+                happiness_score: data_2016[i]["Happiness Score"]
+            };
+            if(region[data_2016[i]["Region"]] == undefined){
+                region[data_2016[i]["Region"]] = [];
+                //region[data_2016[i]["Region"]].push(data_2016[i]["Region"]);
+            }
+            region[data_2016[i]["Region"]].push(country);
+            
+        }
+        console.log(region);
+        
+        
+/*      
+    //2017 data    
+        var country_2017 = [];
+        var GDP_2017 = [];
+        var happiness_score_2017 = [];
+        //var regions = {};
+
+        for(var i=0; i<data_2017.length; i++) {
+            country_2017[i] = data_2017[i]["Country"];
+            GDP_2017[i] = data_2017[i]["Economy..GDP.per.Capita."];
+            happiness_score_2017[i] = data_2017[i]["Happiness.Score"];
+            //if(regions[data_2017[i]["Happiness.Score"]])
+            
+        }
+ */       
+        count = 0;
+        var trace = [];
+        for( let key in region) {
+            var name1 = [];
+            var GDP = [];
+            var score = [];
+            for(let i = 0; i< region[key].length; i++){
+                name1.push(region[key][i]["name"]);
+                GDP.push(region[key][i]["GDP"]);
+                score.push(region[key][i]["happiness_score"]);       
+            }
+            trace[count] = {
+              x: GDP,
+              y: score,
+              mode: 'markers',
+              marker: {
+                size: 40,
+                //color: region_2016
+              },
+              type: 'scatter',
+              name: key,
+              text: name1,
+              textposition: 'top center',
+              textfont: {
+                family:  'Raleway, sans-serif'
+              },
+              marker: { size: 12 }
+            };
+            count++;
+        }
+        console.log(trace);
+        
+   /*     
+        var trace1 = {
+          x: GDP_2016,
+          y: happiness_score_2016,
+          mode: 'markers',
+          marker: {
+            size: 40,
+            //color: region_2016
+          }
+          }
+          type: 'scatter',
+          //name: 'Team A',
+          text: country_2016,
+          textposition: 'top center',
+          textfont: {
+            family:  'Raleway, sans-serif'
+          },
+          marker: { size: 12 }
+        };
+*/
+
+        var data = trace;
+
+        var layout = {
+          hovermode: 'closest',
+          xaxis: {
+            title: 'GDP per capita score (higher is better)',
+            range: [ 0, 2 ]
+          },
+          yaxis: {
+            title: 'Happiness score (higher is better)',
+            range: [2, 8]
+          },
+          legend: {
+            y: 0.5,
+            yref: 'paper',
+            font: {
+              family: 'Arial, sans-serif',
+              size: 20,
+              color: 'grey',
+            }
+          },
+          title:'Happiness Score vs GDP per capita'
+        };
+      
+        Plotly.newPlot(chart_div, data, layout);    
+        
+}
