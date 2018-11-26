@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ICS 484 Project 3</title><!-- TODO project name -->
+  <title>How Happy Is The World | World Happiness Report Visualized</title>
   
   <!-- Bootstrap 4.0 -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -36,6 +36,7 @@
   <script src="node_modules/topojson/build/topojson.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
   <script src="charts/single_country.js"></script>
+  <script src="node_modules/three/three2.js"></script> 
     
   <!-- Glyph Map Script -->
   <script src="Country_List_ISO_3166_Codes_Latitude_Longitude.js"></script>
@@ -44,21 +45,56 @@
   <script src="API_NY.GDP.MKTP.CD_DS2_en_csv_v2_10203569.js"></script>
   <script src="glyph-map.js"></script>
 
-  
   <!-- CSS Styling -->
   <link rel="stylesheet" href="styles.css">
+
 </head>
 <body>
-  <div class="container-fluid p-0">
+  <div class="" style="height: 100vh; overflow: hidden">
+    <img src="icons/grin-beam-solid.svg" style="height: 90vh; width: 90vh; position: absolute; z-index: -1; left: -7vw; top: -7vh">
+    <img src="icons/smile-solid.svg" style="height: 135vh; width: 135vh; position: absolute; z-index: -1; left: 40vw; top: -30vh">
+    <img src="icons/meh-solid.svg" style="height: 45vh; width: 45vh; position: absolute; z-index: -1; left: 20vw; top: 60vh">
+    <img src="icons/frown-solid.svg" style="height: 60vh; width: 60vh; position: absolute; z-index: -1; left: 70vw; top: 50vh">
+    <img src="icons/sad-tear-solid.svg" style="height: 35vh; width: 35vh; position: absolute; z-index: -1; left: 85vw; top: 10vh">
+    <br>
+    <div class="container" style="height: 90vh;background: rgba(255,255,255,0.5); border-radius: 16px">
+      <div class="container my-auto text-center">
+        <h1 class="font-weight-bold">How Happy is the World?</h1>
+      </div>
+      <div class="container">
+        <h5 class="">In the modern age there has been a rapid increase in the quality of living around the world. But how </h5>
+      </div>
+    </div>
+            <div id="earth_div" style="position:absolute; top:15px; z-index=-3; background-color:none;">
+      </div>
+  </div>
+  
+  <div style="height: 70vh" class="bg-light">
+    <div class="container text-light p-4" style="background: #222">
+      <h4>The Data</h4>
+      <p>
+      The <a href="http://worldhappiness.report/" target="_blank">World Happiness Report</a> is an annual publication from the <a href="http://unsdsn.org/" target="_blank">Sustainable Development Solutions Network (SDSN)</a> of the United Nations.
+      It ranks over 150 countries by a happiness rank from 0 to 10, with higher values signifying greator levels of happiness.
+      </p>
+      <p>Each nation's score is broken down into six components and dystopia residual, which show estimates for how much each of these factors contribute to a nation's happiness score. The World Happiness Report is derived from the Gallup World Poll which asks users to rate thier lives on a 0 to 10 ladder scale, with 10 being the best possible life. The sample size for each nation is typicaly about 1000 respondents, however</p>
+      <a class="btn btn-light" href="#map">See the Data</a>
+      <a class="btn btn-light" href="overview_of_data.html">View Overall Data</a>
+    </div>
+  </div>
+  
+  <div class="container-fluid p-0" style="background: #000">
     
     <div class="container-fluid py-2" style="border-bottom: 1px solid #999">
+      <a name="map" style="position: relative;top: 10px"></a>
       <div class="row">
+        
         <div class="col-4">
           <div class="input-group">
+          
             <div class="input-group-prepend">
               <span class="input-group-text">Display Year</span>
             </div>
-            <select class="form-control" id="glyph-map-year" onchange="generateGlyphMap()">
+            <select class="form-control" id="glyph-map-year" onchange="makeChart(this.value);generateGlyphMap();restyle()">
               <option value="2017" selected>2017</option>
               <option value="2016">2016</option>
               <option value="2015">2015</option>
@@ -100,13 +136,35 @@
     <div id="glyph-map"></div>
     <!-- TODO Legend manipulation, glyph sizing by population/territory/rank/none, scaling?, glyph assignement (percentile, threshold)-->
      <button type="submit" id="back_to_map">Go back to map</button>
-    <div id="chart_viz" style="width:100%;">
+      <div class="text-center" style="background-color:grey; ">
+        <div class="input-group mx-auto" style="margin-top:10px;">  
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="margin-top:15px; margin-left:10px;">Display Year</span>
+            </div>
+          <div class="col-3">
+            <select class="form-control" id="glyph-map-year-bottom" 
+                style="margin-top:15px;"
+               onchange="makeChart(this.value);generateGlyphMap();restyle()">
+              <option value="2017" selected>2017</option>
+              <option value="2016">2016</option>
+              <option value="2015">2015</option>
+            </select>
+          </div>
+        </div>
     </div>
-    <div id="individual_charts" class="form-inline" style="width:100%;">
-        <div id="population_chart" class="form-group" style="width:33%;"></div>
-        <div id="gdp_chart" class="form-group" style="width:33%;"></div>
-        <div id="landmass_chart" class="form-group" style="width:33%;"></div>
-    </div>  
+    <div id="chart_viz" style="width:100%; background-color:grey;">
+    </div>
+    <div id="individual_charts" class="form-inline" style="width:100%; background-color:grey;">
+        <div id="population_chart" class="form-group" style="width:33%; background-color:grey;"></div>
+        <div id="gdp_chart" class="form-group" style="width:33%; background-color:grey;"></div>
+        <div id="landmass_chart" class="form-group" style="width:34%; background-color:grey;"></div>
+    </div>
+    <div id="individal_charts_2" class="form-inline" style="width:100%; background-color:grey;">
+        <div id="population_density_char" class="form-group" style="width:50%; background-color:grey;">
+        </div>
+        <div id="gdp_per_capita_chart" class="form-group" style="width:50%; background-color:grey;"></div>
+    </div>
+    
     <div id="individual-view" style="width: 100%; display: none">
       <div style="width: 100%"><select id="country-select2" style="width: 25%"></select></div>
       <div id="stacked_bar" style="width: 100%"></div>
