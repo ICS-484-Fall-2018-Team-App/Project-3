@@ -85,14 +85,18 @@ function chartStackedBarChart(country) {
             barmode: 'stack',
             title: country,
             xaxis: {
-                autotick: false
+                autotick: false,
+                title: 'Year'
             },
             yaxis: {
-                range: [0, 10]
+                range: [0, 10],
+                title: 'Happiness Score'
             },
-            plot_bgcolor: "rgb(0,0,0)",
-            paper_bgcolor: "rgb(0,0,0)",
-            font_color: "rgb(255,255,255)"
+            plot_bgcolor: "rgba(0,0,0,0)",
+            paper_bgcolor: "rgba(0,0,0,0)",
+            font: {
+                color: '#FFFFFF'
+            }
         };
         Plotly.newPlot('stacked_bar', stacked_bar_data, layout2);
     } 
