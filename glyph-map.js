@@ -250,12 +250,12 @@ $(document).ready(function() {
     
 //**************** D3 interactive overlay ************************
 
-L.easyButton('<img src="/path/to/img/of/penguin.png">', function(btn, map){
+L.easyButton('<img src="textures/chart.png">', function(btn, map){
     makeGraph($("#glyph-map-year option:selected").val());
     document.getElementById('glyph-map-year-bottom').scrollIntoView();
 }).addTo( glyphMap );
 
-L.easyButton('fa-gbp', function(){
+L.easyButton('<img src="textures/reset.png">', function(){
     glyphMap.setView([20, 0], 2);
 }).addTo( glyphMap );
 
