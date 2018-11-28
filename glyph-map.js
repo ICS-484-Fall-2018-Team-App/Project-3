@@ -432,6 +432,7 @@ function generateGlyph(url, rank, score, name, pop, land, gdp) {
   let max;
   switch($("#glyph-map-size option:selected").val()) {
     case "u":
+      size = Math.round((glyphMax + glyphMin)/3);
       break;
     case "rh":
       size = Math.round(((data.length - rank)/(data.length - 1))*glyphMax + glyphMin);
