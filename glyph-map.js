@@ -196,14 +196,16 @@ $(document).ready(function() {
     
 //**************** D3 interactive overlay ************************
 
+
+
+L.easyButton('<img src="icons/sync-alt-solid.svg" style="height: 16px; width: 16px; margin: -6px -6px" alt="reset zoom">', function(){
+    glyphMap.setView([20, 0], 2);
+}, "Reset zoom").addTo( glyphMap );
+
 L.easyButton('<span>View Graphs</span>', function(btn, map){
     makeGraph($("#glyph-map-year option:selected").val());
     document.getElementById('back_to_map').scrollIntoView();
 }).addTo( glyphMap );
-
-L.easyButton('<img src="icons/sync-alt-solid.svg" style="height: 16px; width: 16px; margin: -5px -5px" alt="reset zoom">', function(){
-    glyphMap.setView([20, 0], 2);
-}, "Reset zoom").addTo( glyphMap );
 
 // control that shows state info on hover
 var info = L.control();
@@ -398,9 +400,13 @@ function scrollToMap(){
   
 });
 
+$( window ).resize(function() {
+  generateGlyphMap();
+});
+
 function generateGlyphMap() {
-  console.log("building");
   glyphMarkers.clearLayers();
+  generateGlyphSize();
   $.each($("#glyph-map-year option:selected").val() == "2017" ? data_2017 : $("#glyph-map-year option:selected").val() == "2016" ? data_2016 : data_2015, function(idx, val) {
     if(val["Happiness Rank"] < 31) {
       L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/grin-beam-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
@@ -498,6 +504,12 @@ function generatePopUpText(val) {
   }
   return rtn;
 }
+function generateGlyphSize() {
+  let scale = window.innerHeight * 0.9 < window.innerWidth * 0.62 ? window.innerHeight * 0.9 : window.innerWidth * 0.62;
+  glyphMax = (scale * 0.06) + 8;
+  glyphMin = (scale * 0.01) + 8;
+}
+
 
 /*
  * Rounds Float values to dec decimal places
