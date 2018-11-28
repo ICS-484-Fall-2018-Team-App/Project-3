@@ -8,43 +8,102 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="charts/plotly-latest.min.js"></script>
-    <script src="overview_of_data_charts.js"></script>
+  <script src="charts/plotly-latest.min.js"></script>
+  <script src="node_modules/three/three2.js"></script> 
 
-    <script src="world_happiness_data_js_arrays/data_2017.js"></script>
-    <script src="world_happiness_data_js_arrays/data_2016.js"></script>
-    <script src="world_happiness_data_js_arrays/data_2015.js"></script>
-    <script src="overview_of_data_layout_variables.js"></script>
-    
-    <div style="height: 70vh" class="bg-light">
+  <script src="world_happiness_data_js_arrays/data_2017.js"></script>
+  <script src="world_happiness_data_js_arrays/data_2016.js"></script>
+  <script src="world_happiness_data_js_arrays/data_2015.js"></script>
+  <script src="overview_of_data_layout_variables.js"></script>
+  <script src="overview_of_data_charts.js"></script>
+    <div style="background-color:dimgray;">
+        <div class="container my-auto text-center" style="background-color:darkgray; border-radius: 16px">
+            <h1 class="font-weight-bold" style="color:#fff">Trends for Happiness?</h1>   <h3>Scroll down to continue</h3>
+        </div>
+        <div id="earth_div" style="background-color:dimgray;"></div>
+    </div>
+    <div style="height: 100vh; background-color:darkslateblue" >
     <div class="container text-light p-4" style="background: #222">
       <h4>Trends in the Data</h4>
+
+      <a class="btn btn-light" href="index.html">See the Data</a>
       <p>
-      The <a href="http://worldhappiness.report/" target="_blank">World Happiness Report</a> is an annual publication from the <a href="http://unsdsn.org/" target="_blank">Sustainable Development Solutions Network (SDSN)</a> of the United Nations.
-      It ranks over 150 countries by a happiness rank from 0 to 10, with higher values signifying greator levels of happiness.
+      By plotting overall happiness scores vs individual component scores we aimed to see if there were any global trends in terms of higher component scores (more money, better family/friend relations, longer life expectancy) correlating to higher happiness scores. The graphs are provided below and from what we observed, it seems that globally, more money, better friend/family relations, better health and to a certain extent more individual freedom all relate to a greater happiness with life. Generosity and trust in government however don't share the similar trends of above, and as evident in their graphs below we cannot see any trends indicating that greater trust in government and generosity is associated with greater happiness.
+      <p>
+      That doesn't mean to say trust in government and generosity are not important in determining the happiness of a country. We think it more so serves to show that trust in government and generosity are not quite as essential of traits in order for a person to become happy. Additionally, it can also be argued that some of the other traits are related to one another. For example, more money generally means better healthcare and health. Better health means more chances to earn money. Strong family/friend relations means less stress which leads to better health and so on. This is by no means a qualified analysis of the data, just a few possible ideas to explain the observed results. 
       </p>
-      <p>Each nation's score is broken down into six components and dystopia residual, which show estimates for how much each of these factors contribute to a nation's happiness score. The World Happiness Report is derived from the Gallup World Poll which asks users to rate thier lives on a 0 to 10 ladder scale, with 10 being the best possible life. The sample size for each nation is typicaly about 1000 respondents, however</p>
-      <a class="btn btn-light" href="#map">See the Data</a>
-      <a class="btn btn-light" href="overview_of_data.html">View Overall Data</a>
+      <p>
+      Dystopian residual is the unaccounted for points in the happiness score of a country. Money, family/friend relations, health, freedom, generosity and trust in government are six globally recognized metrics that seem to make people happier. However, since happiness scores are obtained by asking people to rate their current happiness from a 0 to 10 scale, it is not possible to definitvely know how much each metric accounted for their score. The metrics are thus infered into the happiness scores and the remaining difference between the sum of the metrics and the happiness score itself is recored as dystopia residual. This residual score is made up of other factors that make people happy as well as inaccuracies in determining how each metric is associated with a score. People have different things that make them happy and not all people place equal importance on each metric. 
+      
+      </p>
+
     </div>
     </div>  
+
+    <div id="gdp_score" style="width:100%; height:800px; background-color:black; "></div>
+    <div id="family_score" style="width:100%; height:800px; background-color:black; "></div>
+    <div id="health_score" style="width:100%; height:800px; background-color:black; "></div>
+    <div id="freedom_score" style="width:100%; height:800px; background-color:black; "></div>
+    <div id="generosity_score" style="width:100%; height:800px; background-color:black; "></div>
+    <div id="trust_score" style="width:100%; height:800px; background-color:black; "></div> 
     
-    <div id="gdp_score" style="width:100%; height:800px;"></div>
-    <div id="family_score" style="width:100%; height:800px;"></div>
-    <div id="health_score" style="width:100%; height:800px;"></div>
-    <div id="freedom_score" style="width:100%; height:800px;"></div>
-    <div id="generosity_score" style="width:100%; height:800px;"></div>
-    <div id="trust_score" style="width:100%; height:800px;"></div> 
-    
+<!--  not using 
     <div id="gdp_dystopia" style="width:100%; height:800px;"></div>
     <div id="family_dystopia" style="width:100%; height:800px;"></div>     
     <div id="health_dystopia" style="width:100%; height:800px;"></div>  
     <div id="freedom_dystopia" style="width:100%; height:800px;"></div> 
     <div id="generosity_dystopia" style="width:100%; height:800px;"></div> 
     <div id="trust_dystopia" style="width:100%; height:800px;"></div> 
-    
-    
+ -->   
     <script>
+        /*
+        var scene = new THREE.Scene();
+
+        var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 6000);
+        camera.position.z = 500;
+
+        var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById("earth_div").appendChild(renderer.domElement);
+
+        var light = new THREE.HemisphereLight('#fff', '#666', 1.25);
+        light.position.set(0, 500, 0);
+        scene.add(light);
+
+
+        let diffuseMap = new THREE.TextureLoader().load("textures/Albedo.jpg");
+        let cloudMap = new THREE.TextureLoader().load("textures/Clouds.png");       
+
+        var map_sphere = new THREE.SphereGeometry(200, 25, 25);
+        var cloud_sphere = new THREE.SphereGeometry(210, 25, 25);
+
+        var map_material = new THREE.MeshPhongMaterial({map: diffuseMap, transparent: true});  
+
+        var cloud_material = new THREE.MeshPhongMaterial({
+            map: cloudMap, 
+            alphaMap: cloudMap,
+            transparent: true,
+            depthWrite: false,
+        });   
+
+        var earth = new THREE.Mesh(map_sphere, map_material);
+        var clouds = new THREE.Mesh(cloud_sphere, cloud_material);
+
+        var root = new THREE.Object3D();     
+        root.add(earth);
+        root.add(clouds);    
+        scene.add(root);
+
+        function render() {
+          //root.rotation.y += 0.02;
+          earth.rotation.y += .005;
+          clouds.rotation.y +=.01;   
+          requestAnimationFrame(render);
+          renderer.render(scene, camera);
+        }
+
+        render();    
+*/
         plot_data_trends();
     </script>
 

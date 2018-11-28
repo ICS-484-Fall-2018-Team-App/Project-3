@@ -63,6 +63,8 @@
         trace_dystopia[0] = [];
         trace_dystopia[1] = [];
         trace_dystopia[2] = [];
+     
+        var font_color = '#FFFFFF';
  //plot vs happiness score       
         for(var i=0; i<3; i++){
             for(var key in happiness[i]) {
@@ -80,6 +82,7 @@
                       text: happiness[i]['name'],
                       textposition: 'top center',
                       textfont: {
+                        color: font_color,
                         family:  'Raleway, sans-serif'
                       },
                       marker: { size: 12 }
@@ -97,7 +100,8 @@
             data[key] = temp;
         }
         
-//plot vs distopian residule        
+//plot vs distopian residule 
+     /*
         for(var i=0; i<3; i++){
             for(var key in happiness[i]) {
                 if(key!=='score' || key !== 'name' 
@@ -131,18 +135,19 @@
             }
             data_dystopia[key] = temp;
         }
-        
+     */   
         Plotly.newPlot('gdp_score', data['gdp'], layout['gdp']);
         Plotly.newPlot('family_score', data['family'], layout['family']);
         Plotly.newPlot('health_score', data['health'], layout['health']);
         Plotly.newPlot('freedom_score', data['freedom'], layout['freedom']);
         Plotly.newPlot('generosity_score', data['generosity'], layout['generosity']);
         Plotly.newPlot('trust_score', data['trust'], layout['trust']);
-
+/*
         Plotly.newPlot('gdp_dystopia', data_dystopia['gdp'], layout['gdp_dystopia']);
         Plotly.newPlot('family_dystopia', data_dystopia['family'], layout['family_dystopia']);
         Plotly.newPlot('health_dystopia', data_dystopia['health'], layout['health_dystopia']);
         Plotly.newPlot('freedom_dystopia', data_dystopia['freedom'], layout['freedom_dystopia']);
         Plotly.newPlot('generosity_dystopia', data_dystopia['generosity'], layout['generosity_dystopia']);
         Plotly.newPlot('trust_dystopia', data_dystopia['trust'], layout['trust_dystopia']);
+*/
  }
