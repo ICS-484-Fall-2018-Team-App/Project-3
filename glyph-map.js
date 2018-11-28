@@ -202,10 +202,7 @@ L.easyButton('<img src="icons/sync-alt-solid.svg" style="height: 16px; width: 16
     glyphMap.setView([20, 0], 2);
 }, "Reset zoom").addTo( glyphMap );
 
-L.easyButton('<span>View Graphs</span>', function(btn, map){
-    makeGraph($("#glyph-map-year option:selected").val());
-    document.getElementById('back_to_map').scrollIntoView();
-}).addTo( glyphMap );
+
 
 // control that shows state info on hover
 var info = L.control();
@@ -213,23 +210,31 @@ var info = L.control();
 info.onAdd = function (glyphMap) {
     this._div = L.DomUtil.create('country_hover');
     this.update();
-    this._div.style.color='#fff';
+    this._div.style.color='#000';
     return this._div;
 };
 
 info.update = function (props) {
-    let text = '<h4>Country</h4><b>';
+    let text = '<div class="bg-light p-2" style="width: 225px; border-radius: 3px">';
     if(props){
         text += "<h5>" + props + "</h5>";    
     } else {
-        text += "<h5>No Country Selected<h5>";
+        text += "<h5>No Country In Focus</h5>";
     }
-
+    countries_to_compare.sort();
+    $.each(countries_to_compare, function(idx, val) {
+      text += "<p style='margin-bottom: -4px; display: inline-block'>" + val + "&nbsp;&nbsp;&nbsp;</p>";
+    });
+    text += "<div class='text-center' style='width: 100%'><div class='btn btn-outline-secondary mt-2' style='' onclick='compareSelected()'>Compare Selected</div></div>";
+    text += "</div>"
     this._div.innerHTML = text;
 
 };
 
 info.addTo(glyphMap);
+
+
+
 
 
 // get color depending on happiness rank
@@ -296,10 +301,10 @@ function highlightFeature(e) {
 
 function resetHighlight(e) {
   if(toggledCountries[e.target.feature.id] == undefined ||
-    toggledCountries[e.target.feature.id] == 0){
-  geojson.resetStyle(e.target);
-  info.update();
+     toggledCountries[e.target.feature.id] == 0){
+    geojson.resetStyle(e.target);  
   }
+  info.update();
 }
 
 function toggleFeature(e) {
@@ -316,6 +321,7 @@ function toggleFeature(e) {
             }
         }
     }
+    info.update(e.target.feature.id);
     //console.log(countries_to_compare);
 }
 
@@ -403,6 +409,11 @@ function scrollToMap(){
 $( window ).resize(function() {
   generateGlyphMap();
 });
+
+function compareSelected() {
+  makeChart($("#glyph-map-year option:selected").val());
+  document.getElementById('back_to_map').scrollIntoView();
+}
 
 function generateGlyphMap() {
   glyphMarkers.clearLayers();
