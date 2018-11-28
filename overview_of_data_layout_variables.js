@@ -19,7 +19,7 @@ var axis_color = '#FFFFFF';
             range: [ 0, 2 ]
           },
           yaxis: {
-            title: 'Happiness score (higher is better)',
+            title: 'Happiness score (higher is happier)',
             range: [2, 8]
           },
           legend: {
@@ -47,11 +47,11 @@ var axis_color = '#FFFFFF';
          paper_bgcolor: 'rgba(0,0,0,0)',               
           hovermode: 'closest',
           xaxis: {
-            title: 'Family score',
+            title: 'Family score (higher means better family/friend relations)',
             range: [ 0, 2 ]
           },
           yaxis: {
-            title: 'Happiness score (higher is better)',
+            title: 'Happiness score (higher is happier)',
             range: [2, 8]
           },
           legend: {
@@ -79,11 +79,11 @@ var axis_color = '#FFFFFF';
          paper_bgcolor: 'rgba(0,0,0,0)',               
           hovermode: 'closest',
           xaxis: {
-            title: 'health (life expectency) score',
+            title: 'health score (higher means longer life expectancy)',
             range: [ 0, 1.5 ]
           },
           yaxis: {
-            title: 'Happiness score (higher is better)',
+            title: 'Happiness score (higher is happier)',
             range: [2, 8]
           },
           legend: {
@@ -95,7 +95,7 @@ var axis_color = '#FFFFFF';
               color: 'white',
             }
           },
-          title:'Happiness Score vs Health(life expectency)'
+          title:'Happiness Score vs Health (life expectency)'
         }; 
 
          layout['freedom'] = {
@@ -111,11 +111,11 @@ var axis_color = '#FFFFFF';
          paper_bgcolor: 'rgba(0,0,0,0)',               
           hovermode: 'closest',
           xaxis: {
-            title: 'Freedom score',
+            title: 'Freedom score (higher means more freedom)',
             range: [ 0, 1 ]
           },
           yaxis: {
-            title: 'Happiness score (higher is better)',
+            title: 'Happiness score (higher is happier)',
             range: [2, 8]
           },
           legend: {
@@ -143,11 +143,11 @@ var axis_color = '#FFFFFF';
          },
           hovermode: 'closest',
           xaxis: {
-            title: 'Generosity score',
+            title: 'Generosity score (higher means more generous)',
             range: [ 0, 1 ]
           },
           yaxis: {
-            title: 'Happiness score (higher is better)',
+            title: 'Happiness score (higher is happier)',
             range: [2, 8]
           },
           legend: {
@@ -175,11 +175,11 @@ var axis_color = '#FFFFFF';
         paper_bgcolor: 'rgba(0,0,0,0)',  
           hovermode: 'closest',
           xaxis: {
-            title: 'trust(government trustworthiness) score',
+            title: 'Government trust score (higher means more trust in government)',
             range: [ 0, 1 ]
           },
           yaxis: {
-            title: 'Happiness score (higher is better)',
+            title: 'Happiness score (higher is happier)',
             range: [2, 8]
           },
           legend: {
