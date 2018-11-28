@@ -201,11 +201,10 @@ L.easyButton('<span>View Graphs</span>', function(btn, map){
     document.getElementById('back_to_map').scrollIntoView();
 }).addTo( glyphMap );
 
-L.easyButton('<span>Reset map zoom</span>', function(){
+L.easyButton('<img src="icons/sync-alt-solid.svg" style="height: 16px; width: 16px; margin: -5px -5px" alt="reset zoom">', function(){
     glyphMap.setView([20, 0], 2);
-}).addTo( glyphMap );
+}, "Reset zoom").addTo( glyphMap );
 
-    
 // control that shows state info on hover
 var info = L.control();
 
@@ -237,7 +236,6 @@ function style(feature) {
   let year = $("#glyph-map-year option:selected").val();
   let data = year == 2017 ? country_by_name[2] : year == 2016 ? country_by_name[1] : country_by_name[0];
   let featureStyle;
-  //console.log(data[feature.id]);
   let clr = data[feature.id] == null ? "#333" : data[feature.id]["Happiness Rank"] < 31 ? "#40ff00" : 
     data[feature.id]["Happiness Rank"] < 61 ? "#99ff66" :
     data[feature.id]["Happiness Rank"] < 91 ? "#00ffbf" :
@@ -388,10 +386,16 @@ makeChart = makeGraph;
 function scrollToMap(){
         document.getElementById('glyph-map-year').scrollIntoView();
 }
-    
-    
-//**************** end of D3 interactive overlay ***********************  
-    
+  
+
+  
+//**************** end of D3 interactive overlay ***********************      
+  
+  $.each($("button"), function(idx, obj) {
+    obj.classList.add("btn");
+    obj.classList.add("btn-light");
+  });
+  
 });
 
 function generateGlyphMap() {
