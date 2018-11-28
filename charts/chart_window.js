@@ -45,6 +45,36 @@ console.log(countries);
         total.push(rank);
         countries_to_graph.push(total);
     }
+    
+    for(let i=0; i<countries_to_graph.length; i++){
+        for(let j=0; j<countries_to_graph[i][0].length; j++){
+            let key = countries_to_graph[i][0][j];
+            if(key === 'Economy (GDP per Capita)' ||
+              key === 'Economy..GDP.per.Capita.'){
+                countries_to_graph[i][0][j] = 'GDP per Capita';
+            }
+            else if(key === 'Health..Life.Expectancy.'){
+                countries_to_graph[i][0][j] = 'Health (Life Expectancy)';
+            }            
+            else if(key === 'Trust (Government Corruption)' ||
+              key === 'Trust..Government.Corruption.'){
+                countries_to_graph[i][0][j] = 'Trust in Government';
+            }
+            else if(key === 'Dystopia.Residual' ||
+              key === 'Dystopia Residual'){
+                countries_to_graph[i][0][j] = 'Dystopia Residual';
+            }            
+        }
+    }
+    
+    if(year == 2017){
+        for(let i=0; i<countries_to_graph.length; i++){
+            let temp = countries_to_graph[i][0][5];
+            countries_to_graph[i][0][5] = countries_to_graph[i][0][6];
+            countries_to_graph[i][0][6] = temp;
+        }
+    }
+    
     let trace = [];
     let pop_trace = [];
     let gdp_trace = [];
