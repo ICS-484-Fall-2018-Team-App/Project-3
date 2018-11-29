@@ -372,7 +372,7 @@ function makeGraph(selectedYear){
             countries_to_graph[countries_to_compare[i]] = country_array[countries_to_compare[i]];
         }
     }
-    document.getElementById('chart_viz').style.height = "500px";
+    document.getElementById('chart_viz').style.height = "80vh";
     document.getElementById('individual-view').style.display = "inline";
     chartCountries("chart_viz", year,
                    "population_chart", "gdp_chart", "landmass_chart",
