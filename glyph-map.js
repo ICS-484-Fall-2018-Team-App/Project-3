@@ -4,6 +4,7 @@ let glyphLegend;
 let glyphMax = 24, glyphMin = 12;
 let restyle;
 let makeChart;
+let showGlyphs = true;
 const HighPop = {
   "2017": 0,
   "2016": 0,
@@ -400,6 +401,12 @@ function scrollToMap(){
   
 //**************** end of D3 interactive overlay ***********************      
   
+  L.easyButton('<img id="toggleGlyphs" src="icons/eye-slash-solid.svg" style="height: 16px; width: 16px; margin: -6px -6px" alt="reset zoom">', function(){
+    showGlyphs = !showGlyphs;
+    document.getElementById("toggleGlyphs").src = showGlyphs == true ? "icons/eye-slash-solid.svg" : "icons/eye-solid.svg"
+    generateGlyphMap();
+  }, "Toggle glyphs").addTo( glyphMap );
+  
   $.each($("button"), function(idx, obj) {
     obj.classList.add("btn");
     obj.classList.add("btn-light");
@@ -419,23 +426,25 @@ function compareSelected() {
 function generateGlyphMap() {
   glyphMarkers.clearLayers();
   generateGlyphSize();
-  $.each($("#glyph-map-year option:selected").val() == "2017" ? data_2017 : $("#glyph-map-year option:selected").val() == "2016" ? data_2016 : data_2015, function(idx, val) {
-    if(val["Happiness Rank"] < 31) {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/grin-beam-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
-    }
-    else if(val["Happiness Rank"] < 61) {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/smile-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
-    }
-    else if(val["Happiness Rank"] < 91) {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/meh-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
-    }
-    else if(val["Happiness Rank"] < 121) {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/frown-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
-    }
-    else {
-      L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/sad-tear-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
-    }
-  });
+  if(showGlyphs) {
+    $.each($("#glyph-map-year option:selected").val() == "2017" ? data_2017 : $("#glyph-map-year option:selected").val() == "2016" ? data_2016 : data_2015, function(idx, val) {
+      if(val["Happiness Rank"] < 31) {
+        L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/grin-beam-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+      }
+      else if(val["Happiness Rank"] < 61) {
+        L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/smile-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+      }
+      else if(val["Happiness Rank"] < 91) {
+        L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/meh-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+      }
+      else if(val["Happiness Rank"] < 121) {
+        L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/frown-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+      }
+      else {
+        L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/sad-tear-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+      }
+    });
+  }
 }
 
 function generateGlyph(url, rank, score, name, pop, land, gdp) {
