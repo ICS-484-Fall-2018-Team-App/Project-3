@@ -311,6 +311,7 @@ function toggleFeature(e) {
     if(toggledCountries[e.target.feature.id] == undefined || toggledCountries[e.target.feature.id] == 0){
         toggledCountries[e.target.feature.id] = 1;
         countries_to_compare.push(e.target.feature.id);
+        highlightFeature(e);
     } else {
         toggledCountries[e.target.feature.id] = 0; 
         resetHighlight(e);
