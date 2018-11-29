@@ -215,7 +215,7 @@ info.onAdd = function (glyphMap) {
 };
 
 info.update = function (props) {
-    let text = '<div class="bg-light p-2" style="width: 225px; border-radius: 3px">';
+    let text = '<div class="bg-light p-2" style="width: 235px; border-radius: 3px; overflow-y: auto; max-height: 500px">';
     if(props){
         text += "<h5>" + props + "</h5>";    
     } else {
