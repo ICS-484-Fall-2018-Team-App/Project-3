@@ -78,7 +78,7 @@ function chartStackedBarChart(country) {
                 text: [text_2015, text_2016, text_2017],
                 textposition: 'outside'
             }
-            stacked_bar_data = [economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, dystopiaTrace];
+            stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace];
         }
 
         let layout2 = {
@@ -150,7 +150,7 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             text: [text_2017],
             textposition: 'outside'
         }
-        return stacked_bar_data = [economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, dystopiaTrace];
+        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace];
     } else if (country_2015 === undefined && country_2017 === undefined) {
         let economyTrace = {
             x: ['2016'],
@@ -197,7 +197,7 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             text: [text_2016],
             textposition: 'outside'
         }
-        return stacked_bar_data = [economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, dystopiaTrace];
+        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace];
     } else if (country_2016 === undefined && country_2017 === undefined) {
         let economyTrace = {
             x: ['2015'],
@@ -244,7 +244,7 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             text: [text_2015],
             textposition: 'outside'
         }
-        return stacked_bar_data = [economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, dystopiaTrace];
+        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace];
     } else if (country_2015 === undefined) {
         let economyTrace = {
             x: ['2016', '2017'],
@@ -292,7 +292,7 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             text: [text_2016, text_2017],
             textposition: 'outside'
         }
-        return stacked_bar_data = [economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, dystopiaTrace];
+        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace];
     } else if (country_2016 === undefined) {
         let economyTrace = {
             x: ['2015', '2017'],
@@ -340,7 +340,7 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             text: [text_2015, text_2017],
             textposition: 'outside'
         }
-        return stacked_bar_data = [economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, dystopiaTrace];
+        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace,];
     } else {
         let economyTrace = {
             x: ['2015', '2016'],
@@ -388,6 +388,6 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             text: [text_2015, text_2016],
             textposition: 'outside'
         }
-        return stacked_bar_data = [economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, dystopiaTrace];
+        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace];
     }
 }
