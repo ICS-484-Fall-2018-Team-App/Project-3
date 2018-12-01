@@ -35,12 +35,12 @@
     </div>
     </div>  
 
-    <div id="gdp_score" style="width:100%; height:800px; background-color:black; "></div>
-    <div id="family_score" style="width:100%; height:800px; background-color:black; "></div>
-    <div id="health_score" style="width:100%; height:800px; background-color:black; "></div>
-    <div id="freedom_score" style="width:100%; height:800px; background-color:black; "></div>
-    <div id="generosity_score" style="width:100%; height:800px; background-color:black; "></div>
-    <div id="trust_score" style="width:100%; height:800px; background-color:black; "></div> 
+    <div id="gdp_score" style="width:100%; height:90vh; background-color:black; "></div>
+    <div id="family_score" style="width:100%; height:90vh; background-color:black; "></div>
+    <div id="health_score" style="width:100%; height:90vh; background-color:black; "></div>
+    <div id="freedom_score" style="width:100%; height:90vh; background-color:black; "></div>
+    <div id="generosity_score" style="width:100%; height:90vhx; background-color:black; "></div>
+    <div id="trust_score" style="width:100%; height:90vh; background-color:black; "></div> 
     
 <!--  not using 
     <div id="gdp_dystopia" style="width:100%; height:800px;"></div>
@@ -51,7 +51,7 @@
     <div id="trust_dystopia" style="width:100%; height:800px;"></div> 
  -->   
     <script>
-        /*
+        
         var scene = new THREE.Scene();
 
         var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 6000);
@@ -96,9 +96,17 @@
           requestAnimationFrame(render);
           renderer.render(scene, camera);
         }
+        
+        window.addEventListener( 'resize', onWindowResize, false );
+        
+        function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
 
         render();    
-*/
+
         plot_data_trends();
     </script>
 
