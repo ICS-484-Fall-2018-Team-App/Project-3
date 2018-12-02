@@ -36,6 +36,7 @@
   <script src="node_modules/topojson/build/topojson.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
   <script src="charts/single_country.js"></script>
+  <script src="happiness_distribution_chart.js"></script>
     
   <!-- Glyph Map Script -->
   <script src="Country_List_ISO_3166_Codes_Latitude_Longitude.js"></script>
@@ -82,6 +83,14 @@
       <p>
       Dystopian residual accounts for any points in the happiness score of a country that cannot be attributed to one of the six breakdown categories. Since happiness scores are obtained by asking people to rate their current happiness on a 0 to 10 scale, it is not possible to definitvely know how much each metric accounted for their score. The degree of each metric is infered from the happiness scores and the remaining difference between the sum of the metrics and the happiness score itself is recorded as dystopia residual. This residual score is made up of other factors that make people happy as well as inaccuracies in determining how each metric is associated with a score. People have different factors that make them happy and not all people place equal importance on each metric.
       </p>
+      <br>
+      <h4>Happiness Distribution</h4> 
+      <p>
+      Before looking at the data, keep in mind that happiness ranks may distort happiness scores. Rank is just a means to put scores into perspective with one another, so depending on how close scores are, rank may make countries seem more or less happy relative to one another than they actually are. The distribution graph below groups countries together that have happiness scores that fall between the x-axis value of a point and the x-value of the next point. For example if a point has x-axis value 4.5, its y axis value is the number of countries that have a happiness score between 4.5 and 5. 
+      </p>
+      <div id="happiness_distributions" class="row">
+      </div>
+        <br>
       <div class="row">
         <div class="col"></div>
         <div class="col">

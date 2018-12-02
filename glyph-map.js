@@ -351,6 +351,7 @@ let geojson = L.geoJson(countries, {
     onEachFeature: onEachFeature
 }).addTo(glyphMap);    
     
+make_distributions("happiness_distributions");    
  
 function makeGraph(selectedYear){
     //let year = $("#glyph-map-year option:selected").val();
