@@ -283,8 +283,6 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             y: [country_2015["Dystopia Residual"]],
             name: 'Dystopia Residual',
             type: 'bar',
-            text: [text_2015],
-            textposition: 'outside'
         }
         let annotationsArray = [
             {
