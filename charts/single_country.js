@@ -6,6 +6,7 @@ $(document).ready(function () {
     //Runs chartStackedBarChart function whenever the select box choice is changed.
     $('#country-select2').on('change.select2', function (e) {
         chartStackedBarChart($(e.target).select2("val"));
+        chartHistogram($("#category-select-histogram").val().toString(), $("#year-select-histogram").val());
     });
 });
 
@@ -487,5 +488,224 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             }
         ];
         return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, annotationsArray];
+    }
+}
+
+//Charts a histogram based on a given category and year with an annotation for selected country
+function chartHistogram(category, year) {
+    let selected_year_data = [];
+    let countryName = document.getElementById('country-select2').value;
+    let country = [];
+    if (year === '2015') {
+        selected_year_data = data_2015;
+        country = data_2015.find(obj => obj.Country === countryName);
+    } else if (year === '2016') {
+        selected_year_data = data_2016;
+        country = data_2016.find(obj => obj.Country === countryName);
+    } else {
+        selected_year_data = data_2017;
+        country = data_2017.find(obj => obj.Country === countryName);
+    }
+
+    let annotation = undefined;
+    let x = [];
+    if (year === '2015' || year === '2016') {
+        if (category === "GDP per Capita") {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Economy (GDP per Capita)"]);
+            }
+            if (country !== undefined) {
+                annotation = country["Economy (GDP per Capita)"];
+            }
+        } else if (category === "Family") {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Family"]);
+            }
+            if (country !== undefined) {
+              annotation = country["Family"];
+            }
+        } else if (category === "Health (Life Expectancy)") {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Health (Life Expectancy)"]);
+            }
+            if (country !== undefined) {
+                annotation = country["Health (Life Expectancy)"];
+            }
+        } else if (category === "Freedom") {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Freedom"]);
+            }
+            if (country !== undefined) {
+                annotation = country["Freedom"];
+            }
+        } else if (category === "Trust in Government") {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Trust (Government Corruption)"]);
+            }
+            if (country !== undefined) {
+                annotation = country["Trust (Government Corruption)"];
+            }
+        } else if (category === "Generosity") {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Generosity"]);
+            }
+            if (country !== undefined) {
+              annotation = country["Generosity"];
+            }
+        } else {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Dystopia Residual"]);
+            }
+            if (country !== undefined) {
+              annotation = country["Dystopia Residual"];
+            }
+        }
+    } else {
+        if (category === "GDP per Capita") {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Economy..GDP.per.Capita."]);
+            }
+            if (country !== undefined) {
+                annotation = country["Economy..GDP.per.Capita."];
+            }
+        } else if (category === "Family") {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Family"]);
+            }
+            if (country !== undefined) {
+                annotation = country["Family"];
+            }
+        } else if (category === "Health (Life Expectancy)") {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Health..Life.Expectancy."]);
+            }
+            if (country !== undefined) {
+                annotation = country["Health..Life.Expectancy."];
+            }
+        } else if (category === "Freedom") {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Freedom"]);
+            }
+            if (country !== undefined) {
+              annotation = country["Freedom"];
+            }
+        } else if (category === "Trust in Government") {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Trust..Government.Corruption."]);
+            }
+            if (country !== undefined) {
+                annotation = country["Trust..Government.Corruption."];
+            }
+        } else if (category === "Generosity") {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Generosity"]);
+            }
+            if (country !== undefined) {
+                annotation = country["Generosity"];
+            }
+        } else {
+            for (let i = 0; i < selected_year_data.length; i++) {
+                x.push(selected_year_data[i]["Dystopia.Residual"]);
+            }
+            if (country !== undefined) {
+                annotation = country["Dystopia.Residual"];
+            }
+        }
+    }
+
+    let histogramData = [
+        {
+            x: x,
+            type: 'histogram'
+        }
+    ];
+
+    let layout3;
+    if (annotation !== undefined) {
+        let annotation_text = countryName + " (" + year + "): " + annotation;
+        layout3 = {
+            title: "Category: " + category + " (" + year + ")",
+            xaxis: {
+                title: category + " Score"
+            },
+            yaxis: {
+                title: 'Amount'
+            },
+            plot_bgcolor: "rgba(0,0,0,0)",
+            paper_bgcolor: "rgba(0,0,0,0)",
+            font: {
+                color: '#FFFFFF'
+            },
+            annotations: [
+                {
+                    x: annotation,
+                    xref: 'x',
+                    yref: 'y',
+                    yanchor: 'top',
+                    showarrow: true,
+                    text: annotation_text
+                }
+            ]
+        }
+    } else {
+        layout3 = {
+            title: "Category: " + category + " (" + year + ")",
+            xaxis: {
+                title: category + " Score"
+            },
+            yaxis: {
+                title: 'Amount'
+            },
+            plot_bgcolor: "rgba(0,0,0,0)",
+            paper_bgcolor: "rgba(0,0,0,0)",
+            font: {
+                color: '#FFFFFF'
+            }
+        }
+    }
+
+    Plotly.newPlot('histogram_chart', histogramData, layout3);
+}
+
+function verifyAnnotationYear(category, year, country) {
+    let transformedCategory;
+    let annotation;
+    if (year === '2015' || year === '2016') {
+        if (category === "GDP per Capita") {
+          for (let i = 0; i < selected_year_data.length; i++) {
+            x.push(selected_year_data[i]["Economy (GDP per Capita)"]);
+          }
+          annotation = country["Economy (GDP per Capita)"];
+        } else if (category === "Family") {
+          for (let i = 0; i < selected_year_data.length; i++) {
+            x.push(selected_year_data[i]["Family"]);
+          }
+          annotation = country["Family"];
+        } else if (category === "Health (Life Expectancy)") {
+          for (let i = 0; i < selected_year_data.length; i++) {
+            x.push(selected_year_data[i]["Health (Life Expectancy)"]);
+          }
+          annotation = country["Health (Life Expectancy)"];
+        } else if (category === "Freedom") {
+          for (let i = 0; i < selected_year_data.length; i++) {
+            x.push(selected_year_data[i]["Freedom"]);
+          }
+          annotation = country["Freedom"];
+        } else if (category === "Trust in Government") {
+          for (let i = 0; i < selected_year_data.length; i++) {
+            x.push(selected_year_data[i]["Trust (Government Corruption)"]);
+          }
+          annotation = country["Trust (Government Corruption)"];
+        } else if (category === "Generosity") {
+          for (let i = 0; i < selected_year_data.length; i++) {
+            x.push(selected_year_data[i]["Generosity"]);
+          }
+          annotation = country["Generosity"];
+        } else {
+          for (let i = 0; i < selected_year_data.length; i++) {
+            x.push(selected_year_data[i]["Dystopia Residual"]);
+          }
+          annotation = country["Dystopia Residual"];
+        }
     }
 }

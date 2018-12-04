@@ -387,6 +387,9 @@ function makeGraph(selectedYear){
       $('#country-select2').val(countries_to_compare[0]); //Grabs first selected country and selects it for individual view
       $('#country-select2').trigger('change');
     }
+    $('#year-select-histogram').val(year);
+    $('#year-select-histogram').trigger('change');
+    chartHistogram(document.getElementById("category-select-histogram").value, year);
 }   
     
 makeChart = makeGraph;

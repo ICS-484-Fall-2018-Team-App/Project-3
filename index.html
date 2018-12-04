@@ -205,6 +205,51 @@
     </div>
     <div id="individual-view" class="form-inline" style="width: 100%; background-color: #494949; border-bottom: 1px solid #999999">
       <div id="stacked_bar" style="width: 100%; background-color: #494949"></div>
+
+      <div class="container-fluid py-2 text-center" style="border-top: 1px solid #999; border-bottom: 1px solid #999">
+        <p style="color: #ffffff; margin-bottom: 5px">Use the dropdowns below to view categorical data by year, and see where your selected country placed.</p>
+      </div>
+
+      <div class="container-fluid py-2 text-center" style="border-bottom: 1px solid #999; background-color: #494949">
+        <div class="row justify-content-center" style="margin-bottom: 10px">
+
+          <div class="col-6 col-md-4">
+            <div class="input-group">
+            
+              <div class="input-group-prepend">
+                <span class="input-group-text">Category</span>
+              </div>
+              <select class="form-control" id="category-select-histogram" onchange="chartHistogram(this.value, document.getElementById('year-select-histogram').value)">
+                <option value="GDP per Capita" selected>GDP per Capita</option>
+                <option value="Family">Family</option>
+                <option value="Health (Life Expectancy)">Health (Life Expectancy)</option>
+                <option value="Freedom">Freedom</option>
+                <option value="Trust in Government">Trust in Government</option>
+                <option value="Generosity">Generosity</option>
+                <option value="Dystopia Residual">Dystopia Residual</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-4">
+            <div class="input-group">
+          
+              <div class="input-group-prepend">
+                <span class="input-group-text">Year</span>
+              </div>
+              <select class="form-control" id="year-select-histogram" onchange="chartHistogram(document.getElementById('category-select-histogram').value, this.value)">
+                <option value="2017" selected>2017</option>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+        <div id="histogram_chart" style="width: 100%; background-color: #494949"></div>
+      </div>
+
+      
     </div>
       
   </div>
