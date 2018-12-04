@@ -1,7 +1,7 @@
 $(document).ready(function () {
     //Populates select box with items in array which contains sorted countries.
     $('#country-select2').select2({
-        data: select2_country_data
+        data: select2_country_data,
     });
     //Runs chartStackedBarChart function whenever the select box choice is changed.
     $('#country-select2').on('change.select2', function (e) {
@@ -75,10 +75,35 @@ function chartStackedBarChart(country) {
                 y: [country_2015["Dystopia Residual"], country_2016["Dystopia Residual"], country_2017["Dystopia.Residual"]],
                 name: 'Dystopia Residual',
                 type: 'bar',
-                text: [text_2015, text_2016, text_2017],
-                textposition: 'outside'
             }
-            stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace];
+            
+            let annotationsArray = [
+                {
+                    x: 2015,
+                    y: 8.7,
+                    xref: 'x',
+                    yref: 'y',
+                    text: text_2015,
+                    showarrow: false
+                },
+                {
+                    x: 2016,
+                    y: 8.7,
+                    xref: 'x',
+                    yref: 'y',
+                    text: text_2016,
+                    showarrow: false
+                },
+                {
+                    x: 2017,
+                    y: 8.7,
+                    xref: 'x',
+                    yref: 'y',
+                    text: text_2017,
+                    showarrow: false
+                },
+            ];
+            stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, annotationsArray];
         }
 
         let layout2 = {
@@ -96,7 +121,8 @@ function chartStackedBarChart(country) {
             paper_bgcolor: "rgba(0,0,0,0)",
             font: {
                 color: '#FFFFFF'
-            }
+            },
+            annotations: stacked_bar_data.pop()
         };
         Plotly.newPlot('stacked_bar', stacked_bar_data, layout2);
     } 
@@ -147,10 +173,18 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             y: [country_2017["Dystopia.Residual"]],
             name: 'Dystopia Residual',
             type: 'bar',
-            text: [text_2017],
-            textposition: 'outside'
         }
-        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace];
+        let annotationsArray = [
+            {
+                x: 2017,
+                y: 8.7,
+                xref: 'x',
+                yref: 'y',
+                text: text_2017,
+                showarrow: false
+            }
+        ];
+        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, annotationsArray];
     } else if (country_2015 === undefined && country_2017 === undefined) {
         let economyTrace = {
             x: ['2016'],
@@ -194,10 +228,18 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             y: [country_2016["Dystopia Residual"]],
             name: 'Dystopia Residual',
             type: 'bar',
-            text: [text_2016],
-            textposition: 'outside'
         }
-        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace];
+        let annotationsArray = [
+            {
+                x: 2016,
+                y: 8.7,
+                xref: 'x',
+                yref: 'y',
+                text: text_2016,
+                showarrow: false
+            }
+        ];
+        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, annotationsArray];
     } else if (country_2016 === undefined && country_2017 === undefined) {
         let economyTrace = {
             x: ['2015'],
@@ -244,7 +286,17 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             text: [text_2015],
             textposition: 'outside'
         }
-        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace];
+        let annotationsArray = [
+            {
+                x: 2015,
+                y: 8.7,
+                xref: 'x',
+                yref: 'y',
+                text: text_2015,
+                showarrow: false
+            }
+        ];
+        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, annotationsArray];
     } else if (country_2015 === undefined) {
         let economyTrace = {
             x: ['2016', '2017'],
@@ -289,10 +341,26 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             y: [country_2016["Dystopia Residual"], country_2017["Dystopia.Residual"]],
             name: 'Dystopia Residual',
             type: 'bar',
-            text: [text_2016, text_2017],
-            textposition: 'outside'
         }
-        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace];
+        let annotationsArray = [
+            {
+                x: 2016,
+                y: 8.7,
+                xref: 'x',
+                yref: 'y',
+                text: text_2016,
+                showarrow: false
+            },
+            {
+                x: 2017,
+                y: 8.7,
+                xref: 'x',
+                yref: 'y',
+                text: text_2017,
+                showarrow: false
+            },
+        ];
+        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, annotationsArray];
     } else if (country_2016 === undefined) {
         let economyTrace = {
             x: ['2015', '2017'],
@@ -337,10 +405,26 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             y: [country_2015["Dystopia Residual"], country_2017["Dystopia.Residual"]],
             name: 'Dystopia Residual',
             type: 'bar',
-            text: [text_2015, text_2017],
-            textposition: 'outside'
         }
-        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace,];
+        let annotationsArray = [
+            {
+                x: 2015,
+                y: 8.7,
+                xref: 'x',
+                yref: 'y',
+                text: text_2015,
+                showarrow: false
+            },
+            {
+                x: 2017,
+                y: 8.7,
+                xref: 'x',
+                yref: 'y',
+                text: text_2017,
+                showarrow: false
+            },
+        ];
+        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, annotationsArray];
     } else {
         let economyTrace = {
             x: ['2015', '2016'],
@@ -385,9 +469,25 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             y: [country_2015["Dystopia Residual"], country_2016["Dystopia Residual"]],
             name: 'Dystopia Residual',
             type: 'bar',
-            text: [text_2015, text_2016],
-            textposition: 'outside'
         }
-        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace];
+        let annotationsArray = [
+            {
+                x: 2015,
+                y: 8.7,
+                xref: 'x',
+                yref: 'y',
+                text: text_2015,
+                showarrow: false
+            },
+            {
+                x: 2016,
+                y: 8.7,
+                xref: 'x',
+                yref: 'y',
+                text: text_2016,
+                showarrow: false
+            }
+        ];
+        return stacked_bar_data = [dystopiaTrace, economyTrace, familyTrace, healthTrace, freedomTrace, trustTrace, generosityTrace, annotationsArray];
     }
 }

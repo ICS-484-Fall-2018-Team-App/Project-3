@@ -392,7 +392,7 @@ function makeGraph(selectedYear){
 makeChart = makeGraph;
     
  document.getElementById("back_to_map").addEventListener("click", scrollToMap);
-  document.getElementById("back_to_map_2").addEventListener("click", scrollToMap);
+  document.getElementById("back_to_map_button_2").addEventListener("click", scrollToMap);
     
 function scrollToMap(){
         document.getElementById('glyph-map-year').scrollIntoView();
