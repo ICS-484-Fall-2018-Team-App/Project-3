@@ -22,9 +22,22 @@ function chartStackedBarChart(country) {
             type: 'bar'
         }];
         let layout1 = {
+            barmode: 'stack',
             title: 'Happiness Breakdown for Single Country',
-            plot_bgcolor: "rgb(0,0,0)"
-        }
+            xaxis: {
+                autotick: false,
+                title: 'Year'
+            },
+            yaxis: {
+                range: [0, 10],
+                title: 'Happiness Score'
+            },
+            plot_bgcolor: "rgba(0,0,0,0)",
+            paper_bgcolor: "rgba(0,0,0,0)",
+            font: {
+                color: '#FFFFFF'
+            },
+        };
         Plotly.newPlot('stacked_bar', emptyData, layout1);
     } else {
         let stacked_bar_data;
