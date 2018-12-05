@@ -152,37 +152,43 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             x: ['2017'],
             y: [country_2017["Economy..GDP.per.Capita."]],
             name: 'Economy (GDP per Capita)',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let familyTrace = {
             x: ['2017'],
             y: [country_2017["Family"]],
             name: 'Family',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let healthTrace = {
             x: ['2017'],
             y: [country_2017["Health..Life.Expectancy."]],
             name: 'Health (Life Expectancy)',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let freedomTrace = {
             x: ['2017'],
             y: [country_2017["Freedom"]],
             name: 'Freedom',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let trustTrace = {
             x: ['2017'],
             y: [country_2017["Trust..Government.Corruption."]],
             name: 'Trust (Government Corruption)',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let generosityTrace = {
             x: ['2017'],
             y: [country_2017["Generosity"]],
             name: 'Generosity',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let text_2017 = "Rank: " + country_2017["Happiness Rank"] + "<br>Score: " + country_2017["Happiness Score"].toFixed(3);
         let dystopiaTrace = {
@@ -190,6 +196,7 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             y: [country_2017["Dystopia.Residual"]],
             name: 'Dystopia Residual',
             type: 'bar',
+            width: 0.3
         }
         let annotationsArray = [
             {
@@ -207,37 +214,43 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             x: ['2016'],
             y: [country_2016["Economy (GDP per Capita)"]],
             name: 'Economy (GDP per Capita)',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let familyTrace = {
             x: ['2016'],
             y: [country_2016["Family"]],
             name: 'Family',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let healthTrace = {
             x: ['2016'],
             y: [country_2016["Health (Life Expectancy)"]],
             name: 'Health (Life Expectancy)',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let freedomTrace = {
             x: ['2016'],
             y: [country_2016["Freedom"]],
             name: 'Freedom',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let trustTrace = {
             x: ['2016'],
             y: [country_2016["Trust (Government Corruption)"]],
             name: 'Trust (Government Corruption)',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let generosityTrace = {
             x: ['2016'],
             y: [country_2016["Generosity"]],
             name: 'Generosity',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let text_2016 = "Rank: " + country_2016["Happiness Rank"] + "<br>Score: " + country_2016["Happiness Score"];
         let dystopiaTrace = {
@@ -245,6 +258,7 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             y: [country_2016["Dystopia Residual"]],
             name: 'Dystopia Residual',
             type: 'bar',
+            width: 0.3
         }
         let annotationsArray = [
             {
@@ -262,37 +276,43 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             x: ['2015'],
             y: [country_2015["Economy (GDP per Capita)"]],
             name: 'Economy (GDP per Capita)',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let familyTrace = {
             x: ['2015'],
             y: [country_2015["Family"]],
             name: 'Family',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let healthTrace = {
             x: ['2015'],
             y: [country_2015["Health (Life Expectancy)"]],
             name: 'Health (Life Expectancy)',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let freedomTrace = {
             x: ['2015'],
             y: [country_2015["Freedom"]],
             name: 'Freedom',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let trustTrace = {
             x: ['2015'],
             y: [country_2015["Trust (Government Corruption)"]],
             name: 'Trust (Government Corruption)',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let generosityTrace = {
             x: ['2015'],
             y: [country_2015["Generosity"]],
             name: 'Generosity',
-            type: 'bar'
+            type: 'bar',
+            width: 0.3
         }
         let text_2015 = "Rank: " + country_2015["Happiness Rank"] + "<br>Score: " + country_2015["Happiness Score"];
         let dystopiaTrace = {
@@ -300,6 +320,7 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             y: [country_2015["Dystopia Residual"]],
             name: 'Dystopia Residual',
             type: 'bar',
+            width: 0.3
         }
         let annotationsArray = [
             {
@@ -355,7 +376,7 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             x: ['2016', '2017'],
             y: [country_2016["Dystopia Residual"], country_2017["Dystopia.Residual"]],
             name: 'Dystopia Residual',
-            type: 'bar',
+            type: 'bar'
         }
         let annotationsArray = [
             {
@@ -419,7 +440,7 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             x: ['2015', '2017'],
             y: [country_2015["Dystopia Residual"], country_2017["Dystopia.Residual"]],
             name: 'Dystopia Residual',
-            type: 'bar',
+            type: 'bar'
         }
         let annotationsArray = [
             {
@@ -483,7 +504,7 @@ function countryMissingYears(country_2015, country_2016, country_2017) {
             x: ['2015', '2016'],
             y: [country_2015["Dystopia Residual"], country_2016["Dystopia Residual"]],
             name: 'Dystopia Residual',
-            type: 'bar',
+            type: 'bar'
         }
         let annotationsArray = [
             {
