@@ -662,7 +662,7 @@ function chartHistogram(category, year) {
         }
     } else {
         layout3 = {
-            title: "Category: " + category + " (" + year + ")",
+            //title: "Category: " + category + " (" + year + ")",
             xaxis: {
                 title: category + " Score"
             },
