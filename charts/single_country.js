@@ -136,7 +136,10 @@ function chartStackedBarChart(country) {
             font: {
                 color: '#FFFFFF'
             },
-            annotations: stacked_bar_data.pop()
+            annotations: stacked_bar_data.pop(),
+            margin: {
+                t: 30
+            }
         };
         Plotly.newPlot('stacked_bar', stacked_bar_data, layout2);
     } 
@@ -658,7 +661,10 @@ function chartHistogram(category, year) {
                     showarrow: true,
                     text: annotation_text
                 }
-            ]
+            ],
+            margin: {
+                t: 30
+            }
         }
     } else {
         layout3 = {
@@ -673,6 +679,9 @@ function chartHistogram(category, year) {
             paper_bgcolor: "rgba(0,0,0,0)",
             font: {
                 color: '#FFFFFF'
+            },
+            margin: {
+                t: 30
             }
         }
     }
