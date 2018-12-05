@@ -11,6 +11,9 @@
   <script src="charts/plotly-latest.min.js"></script>
   <script src="node_modules/three/three2.js"></script> 
 
+  <script src="API_SP.POP.TOTL_DS2_en_csv_v2_10203548.js"></script>
+  <script src="API_AG.LND.TOTL.K2_DS2_en_csv_v2_10181480.js"></script>
+    
   <script src="world_happiness_data_js_arrays/data_2017.js"></script>
   <script src="world_happiness_data_js_arrays/data_2016.js"></script>
   <script src="world_happiness_data_js_arrays/data_2015.js"></script>
@@ -32,6 +35,10 @@
       <p>
       That doesn't mean to say trust in government and generosity are not important in determining the happiness of a country. We think it more so serves to show that trust in government and generosity are not quite as essential of traits in order for a person to become happy. Additionally, it can also be argued that some of the other traits are related to one another. For example, more money generally means better healthcare and health. Better health means more chances to earn money. Strong family/friend relations means less stress which leads to better health and so on. This is by no means a qualified analysis of the data, just a few possible ideas to explain the observed results. 
       </p>
+      <p>
+      Additionally, population, land mass, and population density were also plotted against happiness score, but these do no seem to have any correlation. 
+      </p>    
+    
     </div>
     </div>  
 
@@ -40,7 +47,11 @@
     <div id="health_score" style="width:100%; height:90vh; background-color:black; "></div>
     <div id="freedom_score" style="width:100%; height:90vh; background-color:black; "></div>
     <div id="generosity_score" style="width:100%; height:90vhx; background-color:black; "></div>
-    <div id="trust_score" style="width:100%; height:90vh; background-color:black; "></div> 
+    <div id="trust_score" style="width:100%; height:90vh; background-color:black; "></div>
+    <div id="population_score" style="width:100%; height:90vhx; background-color:black; "></div>
+    <div id="land_score" style="width:100%; height:90vhx; background-color:black; "></div>    
+    <div id="population_density_score" style="width:100%; height:90vh; background-color:black; "></div>
+    
     
 <!--  not using 
     <div id="gdp_dystopia" style="width:100%; height:800px;"></div>

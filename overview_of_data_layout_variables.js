@@ -194,6 +194,102 @@ var axis_color = '#FFFFFF';
           title:'Happiness Score vs Government trustworthiness'
         }; 
 
+         layout['population'] = {
+         font: {
+           size: 12,
+           color: axis_color
+         },
+         titlefont: {
+            size: 24,
+            color: axis_color
+         },
+        plot_bgcolor: "rgba(0,0,0,0)",
+        paper_bgcolor: 'rgba(0,0,0,0)',  
+          hovermode: 'closest',
+          xaxis: {
+            title: 'Population',
+            //range: [ 0, 1 ]
+          },
+          yaxis: {
+            title: 'Happiness score (higher is happier)',
+            //range: [2, 8]
+          },
+          legend: {
+            y: 0.5,
+            yref: 'paper',
+            font: {
+              family: 'Arial, sans-serif',
+              size: 20,
+              color: 'white',
+            }
+          },
+          title:'Happiness Score vs Population Size'
+        }; 
+
+         layout['land'] = {
+         font: {
+           size: 12,
+           color: axis_color
+         },
+         titlefont: {
+            size: 24,
+            color: axis_color
+         },
+        plot_bgcolor: "rgba(0,0,0,0)",
+        paper_bgcolor: 'rgba(0,0,0,0)',  
+          hovermode: 'closest',
+          xaxis: {
+            title: 'Land Mass (km^2)',
+            //range: [ 0, 1 ]
+          },
+          yaxis: {
+            title: 'Happiness score (higher is happier)',
+            //range: [2, 8]
+          },
+          legend: {
+            y: 0.5,
+            yref: 'paper',
+            font: {
+              family: 'Arial, sans-serif',
+              size: 20,
+              color: 'white',
+            }
+          },
+          title:'Happiness Score vs Land Mass Area'
+        }; 
+
+         layout['pop_density'] = {
+         font: {
+           size: 12,
+           color: axis_color
+         },
+         titlefont: {
+            size: 24,
+            color: axis_color
+         },
+        plot_bgcolor: "rgba(0,0,0,0)",
+        paper_bgcolor: 'rgba(0,0,0,0)',  
+          hovermode: 'closest',
+          xaxis: {
+            title: 'Population density (people per km^2)',
+            //range: [ 0, 1 ]
+          },
+          yaxis: {
+            title: 'Happiness score (higher is happier)',
+            //range: [2, 8]
+          },
+          legend: {
+            y: 0.5,
+            yref: 'paper',
+            font: {
+              family: 'Arial, sans-serif',
+              size: 20,
+              color: 'white',
+            }
+          },
+          title:'Happiness Score vs Population Density'
+        }; 
+
 /*
         layout['gdp_dystopia'] = {
           hovermode: 'closest',
