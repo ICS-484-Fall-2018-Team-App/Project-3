@@ -270,7 +270,7 @@ function style(feature) {
 }
 
 restyle = function() {
-  console.log("ran");
+  //console.log("ran");
   $.each(geojson._layers, function(i, val){
     //console.log(val);
     //console.log(val.feature);
@@ -420,6 +420,8 @@ function scrollToMap(){
 
 $( window ).resize(function() {
   generateGlyphMap();
+  makeChart($("#glyph-map-year option:selected").val());
+  restyle();
 });
 
 function compareSelected() {
