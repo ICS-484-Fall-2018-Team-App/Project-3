@@ -122,7 +122,7 @@ function chartStackedBarChart(country) {
 
         let layout2 = {
             barmode: 'stack',
-            title: country,
+            title: "Country: " + country,
             xaxis: {
                 autotick: false,
                 title: 'Year'
