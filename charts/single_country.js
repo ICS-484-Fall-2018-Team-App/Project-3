@@ -637,7 +637,7 @@ function chartHistogram(category, year) {
     if (annotation !== undefined) {
         let annotation_text = countryName + " (" + year + "): " + annotation;
         layout3 = {
-            title: "Category: " + category + " (" + year + ")",
+            //title: "Category: " + category + " (" + year + ")",
             xaxis: {
                 title: category + " Score"
             },
