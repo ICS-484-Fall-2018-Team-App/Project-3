@@ -147,9 +147,9 @@
             <div class="input-group-prepend">
               <span class="input-group-text">Happiness Threshold</span>
             </div>
-            <select class="form-control" id="glyph-map-size" onchange="generateGlyphMap()">
+            <select class="form-control" id="glyph-map-type" onchange="generateGlyphMap();restyle()">
               <option value="p" selected>Percentile</option>
-
+              <option value="s" selected>Score Distribution</option>
             </select>
           </div>
         </div>

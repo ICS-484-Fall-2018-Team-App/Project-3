@@ -1,6 +1,7 @@
 let glyphMap;
 let glyphMarkers;
 let glyphLegend;
+let glyphLegendDiv;
 let glyphMax = 24, glyphMin = 12;
 let restyle;
 let makeChart;
@@ -173,25 +174,41 @@ $(document).ready(function() {
     }
   });
   
+  glyphLegend = L.control({position: "bottomleft"});
+  glyphLegend.onAdd = function (map) {
+    if($("#glyph-map-type option:selected").val() == "p") {
+      let div = L.DomUtil.create('div', 'glyph-map-legend px-2 py-1');
+      div.innerHTML += '<div class="text-center"><span class="text-light f-16">Rank</span></div>';
+      div.innerHTML += '<img src="icons/grin-beam-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;1 to 30</span><br>';
+      div.innerHTML += '<img src="icons/smile-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;31 to 60</span><br>';
+      div.innerHTML += '<img src="icons/meh-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;61 to 90</span><br>';
+      div.innerHTML += '<img src="icons/frown-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;91 to 120</span><br>';
+      div.innerHTML += '<img src="icons/sad-tear-solid.svg" class=" mr-1"><span class="text-light">&nbsp;121+</span><br>';
+      glyphLegendDiv = div;
+      return div;
+    }
+    else {
+      let div = L.DomUtil.create('div', 'glyph-map-legend px-2 py-1');
+      div.innerHTML += '<div class="text-center"><span class="text-light f-16">Score</span></div>';
+      div.innerHTML += '<img src="icons/grin-beam-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;6.81 to 8.00</span><br>';
+      div.innerHTML += '<img src="icons/smile-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;5.61 to 6.80</span><br>';
+      div.innerHTML += '<img src="icons/meh-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;4.41 to 5.60</span><br>';
+      div.innerHTML += '<img src="icons/frown-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;3.21 to 4.40</span><br>';
+      div.innerHTML += '<img src="icons/sad-tear-solid.svg" class=" mr-1"><span class="text-light">&nbsp;2.00 to 3.20</span><br>';
+      glyphLegendDiv = div;
+      return div;
+    }
+  };
+  glyphLegend.addTo(glyphMap);
+  
   generateGlyphMap();
   
   toggledCountries["United States"]=1;
   countries_to_compare.push("United States");
   makeGraph($("#glyph-map-year option:selected").val());
   
-  // Building Gylph Legend
-  glyphLegend = L.control({position: "bottomleft"});
-  glyphLegend.onAdd = function (map) {
-    let div = L.DomUtil.create('div', 'glyph-map-legend px-2 py-1');
-    div.innerHTML += '<div class="text-center"><span class="text-light f-16">Rank</span></div>';
-    div.innerHTML += '<img src="icons/grin-beam-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;1 to 30</span><br>';
-    div.innerHTML += '<img src="icons/smile-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;31 to 60</span><br>';
-    div.innerHTML += '<img src="icons/meh-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;61 to 90</span><br>';
-    div.innerHTML += '<img src="icons/frown-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;91 to 120</span><br>';
-    div.innerHTML += '<img src="icons/sad-tear-solid.svg" class=" mr-1"><span class="text-light">&nbsp;121+</span><br>';
-    return div;
-  };
-  glyphLegend.addTo(glyphMap);
+  
+  
     
     
     
@@ -244,10 +261,19 @@ function style(feature) {
   let year = $("#glyph-map-year option:selected").val();
   let data = year == 2017 ? country_by_name[2] : year == 2016 ? country_by_name[1] : country_by_name[0];
   let featureStyle;
-  let clr = data[feature.id] == null ? "#333" : data[feature.id]["Happiness Rank"] < 31 ? "#40ff00" : 
-    data[feature.id]["Happiness Rank"] < 61 ? "#99ff66" :
-    data[feature.id]["Happiness Rank"] < 91 ? "#00ffbf" :
-    data[feature.id]["Happiness Rank"] < 121 ? "#00bfff" :"#0040ff";
+  let clr;
+  if($("#glyph-map-type option:selected").val() == "p") {
+    clr = data[feature.id] == null ? "#333" : data[feature.id]["Happiness Rank"] < 31 ? "#40ff00" : 
+      data[feature.id]["Happiness Rank"] < 61 ? "#99ff66" :
+      data[feature.id]["Happiness Rank"] < 91 ? "#00ffbf" :
+      data[feature.id]["Happiness Rank"] < 121 ? "#00bfff" :"#0040ff";
+  }
+  else {
+    clr = data[feature.id] == null ? "#333" : data[feature.id]["Happiness Score"] > 6.8 ? "#40ff00" : 
+      data[feature.id]["Happiness Score"] > 5.6 ? "#99ff66" :
+      data[feature.id]["Happiness Score"] > 4.4 ? "#00ffbf" :
+      data[feature.id]["Happiness Score"] > 3.2 ? "#00bfff" :"#0040ff";
+  }
     if(toggledCountries[feature.id] == undefined ||
        toggledCountries[feature.id] == 0){
         featureStyle = {
@@ -432,22 +458,42 @@ function compareSelected() {
 function generateGlyphMap() {
   glyphMarkers.clearLayers();
   generateGlyphSize();
+  generateGlyphLegend();
   if(showGlyphs) {
     $.each($("#glyph-map-year option:selected").val() == "2017" ? data_2017 : $("#glyph-map-year option:selected").val() == "2016" ? data_2016 : data_2015, function(idx, val) {
-      if(val["Happiness Rank"] < 31) {
-        L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/grin-beam-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
-      }
-      else if(val["Happiness Rank"] < 61) {
-        L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/smile-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
-      }
-      else if(val["Happiness Rank"] < 91) {
-        L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/meh-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
-      }
-      else if(val["Happiness Rank"] < 121) {
-        L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/frown-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+      if($("#glyph-map-type option:selected").val() == "p") {
+        if(val["Happiness Rank"] < 31) {
+          L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/grin-beam-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+        }
+        else if(val["Happiness Rank"] < 61) {
+          L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/smile-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+        }
+        else if(val["Happiness Rank"] < 91) {
+          L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/meh-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+        }
+        else if(val["Happiness Rank"] < 121) {
+          L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/frown-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+        }
+        else {
+          L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/sad-tear-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+        }
       }
       else {
-        L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/sad-tear-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+        if(val["Happiness Score"] > 6.8) {
+          L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/grin-beam-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+        }
+        else if(val["Happiness Score"] > 5.6) {
+          L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/smile-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+        }
+        else if(val["Happiness Score"] > 4.4) {
+          L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/meh-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+        }
+        else if(val["Happiness Score"] > 3.2) {
+          L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/frown-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+        }
+        else {
+          L.marker([val["Lat"], val["Lon"]], {icon: generateGlyph('icons/sad-tear-solid.svg', val["Happiness Rank"], val["Happiness Score"], val["Country"], val["Population"], val["Land Mass"], val["GDP"])}).addTo(glyphMap).bindPopup(generatePopUpText(val)).addTo(glyphMarkers);  
+        }
       }
     });
   }
@@ -536,6 +582,24 @@ function generateGlyphSize() {
   let scale = window.innerHeight * 0.9 < window.innerWidth * 0.62 ? window.innerHeight * 0.9 : window.innerWidth * 0.62;
   glyphMax = (scale * 0.06) + 8;
   glyphMin = (scale * 0.01) + 8;
+}
+function generateGlyphLegend() {
+  if($("#glyph-map-type option:selected").val() == "p") {
+    glyphLegendDiv.innerHTML = '<div class="text-center"><span class="text-light f-16">Rank</span></div>';
+    glyphLegendDiv.innerHTML += '<img src="icons/grin-beam-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;1 to 30</span><br>';
+    glyphLegendDiv.innerHTML += '<img src="icons/smile-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;31 to 60</span><br>';
+    glyphLegendDiv.innerHTML += '<img src="icons/meh-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;61 to 90</span><br>';
+    glyphLegendDiv.innerHTML += '<img src="icons/frown-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;91 to 120</span><br>';
+    glyphLegendDiv.innerHTML += '<img src="icons/sad-tear-solid.svg" class=" mr-1"><span class="text-light">&nbsp;121+</span><br>';
+  }
+  else {
+    glyphLegendDiv.innerHTML = '<div class="text-center"><span class="text-light f-16">Score</span></div>';
+    glyphLegendDiv.innerHTML += '<img src="icons/grin-beam-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;6.81 to 8.00</span><br>';
+    glyphLegendDiv.innerHTML += '<img src="icons/smile-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;5.61 to 6.80</span><br>';
+    glyphLegendDiv.innerHTML += '<img src="icons/meh-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;4.41 to 5.60</span><br>';
+    glyphLegendDiv.innerHTML += '<img src="icons/frown-solid.svg" class="mb-1 mr-1"><span class="text-light">&nbsp;3.21 to 4.40</span><br>';
+    glyphLegendDiv.innerHTML += '<img src="icons/sad-tear-solid.svg" class=" mr-1"><span class="text-light">&nbsp;2.00 to 3.20</span><br>';
+  }
 }
 
 
